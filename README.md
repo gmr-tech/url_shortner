@@ -54,7 +54,7 @@ lib/
 └── src/
     ├── common/
     ├── modules/
-    │   ├── shorten/
+    │   ├── shortener/
     │   └── history/
     ├── l10n/
     └── utils/
