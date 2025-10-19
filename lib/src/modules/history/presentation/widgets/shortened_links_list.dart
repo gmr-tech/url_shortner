@@ -1,3 +1,4 @@
+import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/domain/shortened_url.dart';
@@ -15,11 +16,16 @@ class ShortenedLinksList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 8,
+      spacing: DSSpace.small,
       children: [
         Material(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 18, 16, 0),
+            padding: const EdgeInsets.fromLTRB(
+              DSSpace.medium,
+              DSSpace.medium,
+              DSSpace.medium,
+              0,
+            ),
             child: Text(
               'Recently shortened URLs',
               style: Theme.of(context).textTheme.titleLarge,
@@ -33,10 +39,10 @@ class ShortenedLinksList extends StatelessWidget {
               shortenedLink: shortenedLinks.elementAt(index),
             ),
             separatorBuilder: (context, index) => const Divider(
-              height: 1,
-              thickness: 1,
-              indent: 16,
-              endIndent: 16,
+              height: DSSize.borderThicknessSmall,
+              thickness: DSSize.borderThicknessSmall,
+              indent: DSSpace.medium,
+              endIndent: DSSpace.medium,
             ),
           ),
         ),

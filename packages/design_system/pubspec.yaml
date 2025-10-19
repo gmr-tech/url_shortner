@@ -1,0 +1,22 @@
+name: design_system
+description: "Design system package"
+
+publish_to: "none"
+
+version: 0.0.1
+
+environment:
+  sdk: ">=3.9.2 <4.0.0"
+  flutter: ">=3.35.6 <4.0.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+

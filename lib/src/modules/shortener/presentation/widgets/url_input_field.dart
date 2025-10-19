@@ -1,3 +1,4 @@
+import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 class UrlInputField extends StatelessWidget {
@@ -8,30 +9,30 @@ class UrlInputField extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         labelText: 'Enter URL to shorten',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(DSProperty.radius),
         ),
         prefixIcon: const Icon(Icons.link),
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 4,
-          horizontal: 16,
+          vertical: DSSpace.xSmall,
+          horizontal: DSSpace.medium,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(48 / 2),
+          borderRadius: const BorderRadius.all(DSProperty.radiusXXLarge),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.outline,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(48 / 2),
+          borderRadius: const BorderRadius.all(DSProperty.radiusXXLarge),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.primary,
-            width: 2,
+            width: DSSize.borderThicknessLarge,
           ),
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(48 / 2),
+          borderRadius: const BorderRadius.all(DSProperty.radiusXXLarge),
           borderSide: BorderSide(
             color: Theme.of(context).disabledColor,
           ),

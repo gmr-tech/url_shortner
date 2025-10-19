@@ -1,7 +1,8 @@
+import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 import '../../modules/history/presentation/widgets/shortened_links_list.dart';
-import '../../modules/shortener/presentation/widgets/send_input_button.dart';
+import '../../modules/shortener/presentation/widgets/shorten_url_button.dart';
 import '../../modules/shortener/presentation/widgets/url_input_field.dart';
 import '../domain/shortened_url.dart';
 
@@ -23,12 +24,12 @@ class Home extends StatelessWidget {
           children: [
             Material(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(DSSpace.medium),
                 child: Row(
-                  spacing: 8,
+                  spacing: DSSpace.small,
                   children: [
                     const Expanded(child: UrlInputField()),
-                    SendLinkToShortenerButton(
+                    ShortenUrlButton(
                       onPressed: () {},
                     ),
                   ],

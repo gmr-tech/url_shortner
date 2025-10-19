@@ -1,6 +1,17 @@
+import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/domain/shortened_url.dart';
+
+/// A custom tile of a shortened links with:
+///
+///   - Short URL
+///   - Original URL
+///   - Creation date
+///
+/// It uses a custom [InkWell] and WidgetTree layout because ListTile's
+/// default behavior does not allow proper customization of paddings and
+/// margins to match the design system specifications.
 
 class ShortenedLinkTile extends StatelessWidget {
   const ShortenedLinkTile({
@@ -16,8 +27,8 @@ class ShortenedLinkTile extends StatelessWidget {
       onTap: () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
+          horizontal: DSSpace.medium,
+          vertical: DSSpace.small,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,7 +37,7 @@ class ShortenedLinkTile extends StatelessWidget {
               shortenedLink.shortUrl,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 4),
+            const DSBoxSpace.xSmall(),
             Text(
               shortenedLink.originalUrl,
               style: Theme.of(context).textTheme.bodySmall,

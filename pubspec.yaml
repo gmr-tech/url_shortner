@@ -9,9 +9,13 @@ environment:
   sdk: ">=3.9.2 <4.0.0"
   flutter: ">=3.35.6 <4.0.0"
 
+workspace:
+  - packages/design_system
+
 dependencies:
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
+  design_system:
   dio: ^5.9.0
   equatable: ^2.0.7
   flutter:
