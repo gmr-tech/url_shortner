@@ -5,5 +5,5 @@ import '../../../common/domain/input_url.dart';
 import '../../../common/domain/shortened_url.dart';
 
 abstract interface class ShortenerRepository {
-  Future<Either<Failure, ShortenedUrl>> shortenUrl(InputUrl originalUrl);
+  Future<Either<Failure, ShortenedUrl>> shorten(InputUrl originalUrl);
 }

@@ -17,7 +17,7 @@ class ShortenerRepositoryImpl implements ShortenerRepository {
   final Dio dio;
 
   @override
-  Future<Either<Failure, ShortenedUrl>> shortenUrl(InputUrl originalUrl) async {
+  Future<Either<Failure, ShortenedUrl>> shorten(InputUrl originalUrl) async {
     final response = await dio.post('/shorten', data: originalUrl.url);
 
     final data = response.data as Map<String, dynamic>;

@@ -5,6 +5,8 @@ class InputUrl extends Equatable {
 
   final String url;
 
+  bool get isValid => true;
+
   @override
   List<Object?> get props => [url];
 }

@@ -55,10 +55,11 @@ extension FailurePatterns<T> on Failure<T> {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( InvalidData<T> value)?  invalidData,TResult Function( NetworkError<T> value)?  networkError,TResult Function( ServerError<T> value)?  serverError,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( InvalidInput<T> value)?  invalidInput,TResult Function( InvalidData<T> value)?  invalidData,TResult Function( NetworkError<T> value)?  networkError,TResult Function( ServerError<T> value)?  serverError,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case InvalidData() when invalidData != null:
+case InvalidInput() when invalidInput != null:
+return invalidInput(_that);case InvalidData() when invalidData != null:
 return invalidData(_that);case NetworkError() when networkError != null:
 return networkError(_that);case ServerError() when serverError != null:
 return serverError(_that);case _:
@@ -79,10 +80,11 @@ return serverError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( InvalidData<T> value)  invalidData,required TResult Function( NetworkError<T> value)  networkError,required TResult Function( ServerError<T> value)  serverError,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( InvalidInput<T> value)  invalidInput,required TResult Function( InvalidData<T> value)  invalidData,required TResult Function( NetworkError<T> value)  networkError,required TResult Function( ServerError<T> value)  serverError,}){
 final _that = this;
 switch (_that) {
-case InvalidData():
+case InvalidInput():
+return invalidInput(_that);case InvalidData():
 return invalidData(_that);case NetworkError():
 return networkError(_that);case ServerError():
 return serverError(_that);case _:
@@ -102,10 +104,11 @@ return serverError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( InvalidData<T> value)?  invalidData,TResult? Function( NetworkError<T> value)?  networkError,TResult? Function( ServerError<T> value)?  serverError,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( InvalidInput<T> value)?  invalidInput,TResult? Function( InvalidData<T> value)?  invalidData,TResult? Function( NetworkError<T> value)?  networkError,TResult? Function( ServerError<T> value)?  serverError,}){
 final _that = this;
 switch (_that) {
-case InvalidData() when invalidData != null:
+case InvalidInput() when invalidInput != null:
+return invalidInput(_that);case InvalidData() when invalidData != null:
 return invalidData(_that);case NetworkError() when networkError != null:
 return networkError(_that);case ServerError() when serverError != null:
 return serverError(_that);case _:
@@ -125,9 +128,10 @@ return serverError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  invalidData,TResult Function()?  networkError,TResult Function()?  serverError,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  invalidInput,TResult Function()?  invalidData,TResult Function()?  networkError,TResult Function()?  serverError,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case InvalidData() when invalidData != null:
+case InvalidInput() when invalidInput != null:
+return invalidInput();case InvalidData() when invalidData != null:
 return invalidData();case NetworkError() when networkError != null:
 return networkError();case ServerError() when serverError != null:
 return serverError();case _:
@@ -148,9 +152,10 @@ return serverError();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  invalidData,required TResult Function()  networkError,required TResult Function()  serverError,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  invalidInput,required TResult Function()  invalidData,required TResult Function()  networkError,required TResult Function()  serverError,}) {final _that = this;
 switch (_that) {
-case InvalidData():
+case InvalidInput():
+return invalidInput();case InvalidData():
 return invalidData();case NetworkError():
 return networkError();case ServerError():
 return serverError();case _:
@@ -170,9 +175,10 @@ return serverError();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  invalidData,TResult? Function()?  networkError,TResult? Function()?  serverError,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  invalidInput,TResult? Function()?  invalidData,TResult? Function()?  networkError,TResult? Function()?  serverError,}) {final _that = this;
 switch (_that) {
-case InvalidData() when invalidData != null:
+case InvalidInput() when invalidInput != null:
+return invalidInput();case InvalidData() when invalidData != null:
 return invalidData();case NetworkError() when networkError != null:
 return networkError();case ServerError() when serverError != null:
 return serverError();case _:
@@ -182,6 +188,38 @@ return serverError();case _:
 }
 
 }
+
+/// @nodoc
+
+
+class InvalidInput<T> implements Failure<T> {
+  const InvalidInput();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InvalidInput<T>);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'Failure<$T>.invalidInput()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 

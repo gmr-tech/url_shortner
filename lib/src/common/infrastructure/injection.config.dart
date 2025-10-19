@@ -14,6 +14,7 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:share_plus/share_plus.dart' as _i998;
 
+import '../../modules/shortener/domain/shorten_url_usecase.dart' as _i238;
 import '../../modules/shortener/domain/shortener_repository.dart' as _i815;
 import '../../modules/shortener/infrastructure/shortener_respository_impl.dart'
     as _i600;
@@ -31,6 +32,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i998.SharePlus>(() => externalModules.sharePlus);
     gh.lazySingleton<_i815.ShortenerRepository>(
       () => _i600.ShortenerRepositoryImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i238.ShortenUrlUseCase>(
+      () => _i238.ShortenUrlUseCase(gh<_i815.ShortenerRepository>()),
     );
     return this;
   }
