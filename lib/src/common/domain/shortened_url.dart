@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class ShortenedLink extends Equatable {
-  const ShortenedLink({
+class ShortenedUrl extends Equatable {
+  const ShortenedUrl({
     required this.aliasId,
     required this.originalUrl,
     required this.shortUrl,

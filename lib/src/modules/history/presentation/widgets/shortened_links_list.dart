@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../common/domain/shortened_link.dart';
+import '../../../../common/domain/shortened_url.dart';
 import 'shortened_link_tile.dart';
 
 class ShortenedLinksList extends StatelessWidget {
@@ -9,7 +9,7 @@ class ShortenedLinksList extends StatelessWidget {
     super.key,
   });
 
-  final Set<ShortenedLink> shortenedLinks;
+  final Set<ShortenedUrl> shortenedLinks;
 
   @override
   Widget build(BuildContext context) {
