@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'src/common/infrastructure/injection.dart';
 import 'src/common/presentation/home.dart';
+import 'src/modules/shortener/bloc/shortener_bloc.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -14,7 +17,10 @@ class App extends StatelessWidget {
           seedColor: Colors.deepPurple,
         ),
       ),
-      home: const Home(),
+      home: BlocProvider(
+        create: (context) => getIt<ShortenerBloc>(),
+        child: const Home(),
+      ),
     );
   }
 }

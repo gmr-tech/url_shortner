@@ -1,8 +1,9 @@
 part of 'shortener_bloc.dart';
 
-sealed class ShortenerEvent extends Equatable {
-  const ShortenerEvent();
-
-  @override
-  List<Object> get props => [];
+@freezed
+sealed class ShortenerEvent with _$ShortenerEvent {
+  const factory ShortenerEvent.reset() = _Reset;
+  const factory ShortenerEvent.shorten({
+    required InputUrl inputUrl,
+  }) = _Shorten;
 }
