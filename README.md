@@ -2,6 +2,14 @@
 
 Aplicativo desenvolvido para o processo seletivo do **Nubank**, com o objetivo de encurtar URLs e exibir o histórico recente de links encurtados.
 
+### Para rodar o projeto
+
+1. Clone o repositório
+2. Instale o flutter SDK definido no arquivo `.tool-versions`
+3. Execute `flutter pub get`
+4. Execute o build runner: `dart run build_runner watch --delete-conflicting-outputs`
+5. Rode o app com `flutter run` ou usando as configurações do `launch.json` no VSCode
+
 > **Stack principal:**
 
 - Flutter
@@ -96,32 +104,9 @@ packages/
 | Funcional | Either (dartz)             |
 
 
-## 🧪 Testes
-
-Cobertura para:
-
-- UseCases e repositórios (unit tests).
-- Widgets principais (golden tests).
-
-Executar:
-
-```bash
-flutter test
-```
-
-
-## ▶️ Execução
-
-```bash
-flutter pub get
-flutter pub run build_runner build --delete-conflicting-outputs
-flutter run
-```
-
-
 ## 📘 Padrões
 
-- Clean Arch + DDD + TDD
+- Clean Arch + DDD
 - Feature-first
 - SOLID e Clean Code
 - Sem warnings de lint
