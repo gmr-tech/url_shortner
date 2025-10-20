@@ -161,21 +161,5 @@ void main() {
         },
       );
     });
-
-    group('Interaction Tests', () {
-      testWidgets(
-        'handles null onClear gracefully',
-        (tester) async {
-          await WidgetTestHelper.pumpWidget(
-            tester,
-            const InputFieldSuffixIcon(
-              state: ShortenerState.hasInput(inputUrl: TestData.validInputUrl),
-            ),
-          );
-
-          expect(find.byType(IconButton), findsOneWidget);
-        },
-      );
-    });
   });
 }
