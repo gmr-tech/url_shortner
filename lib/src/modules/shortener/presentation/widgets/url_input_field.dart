@@ -1,7 +1,6 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../common/presentation/paste_snackbar.dart';
 import '../../../../common/presentation/ui_strings.dart';
 import '../../bloc/shortener_bloc.dart';
 import 'input_field_suffix_icon.dart';
@@ -14,9 +13,7 @@ class UrlInputField extends StatefulWidget {
     this.onClear,
     this.getClipboard,
     this.validateInput,
-    this.shouldShowPasteSnackbar,
-    this.showPasteSnackBar,
-    this.hideCurrentSnackBar,
+    this.onPasteFromClipboard,
     super.key,
   });
 
@@ -26,9 +23,12 @@ class UrlInputField extends StatefulWidget {
   final Function()? onClear;
   final Future<String?> Function()? getClipboard;
   final String? Function(String?)? validateInput;
-  final bool Function(String)? shouldShowPasteSnackbar;
-  final void Function(BuildContext, SnackBar)? showPasteSnackBar;
-  final void Function(BuildContext)? hideCurrentSnackBar;
+  final void Function(
+    BuildContext,
+    String,
+    VoidCallback,
+  )?
+  onPasteFromClipboard;
 
   @override
   State<UrlInputField> createState() => _UrlInputFieldState();
@@ -41,7 +41,7 @@ class _UrlInputFieldState extends State<UrlInputField> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => handleInitialPaste(context),
+      (_) => handleClipboardPaste(context),
     );
   }
 
@@ -124,20 +124,16 @@ class _UrlInputFieldState extends State<UrlInputField> {
     widget.onChanged?.call(text);
   }
 
-  void handleInitialPaste(BuildContext context) async {
-    final text = await widget.getClipboard?.call() ?? '';
-    final shouldShow = widget.shouldShowPasteSnackbar?.call(text) ?? false;
-    if (context.mounted && shouldShow) {
-      widget.showPasteSnackBar?.call(
+  void handleClipboardPaste(BuildContext context) async {
+    final text = await widget.getClipboard?.call();
+    if (context.mounted && text != null) {
+      widget.onPasteFromClipboard?.call(
         context,
-        PasteSnackBar(
-          context: context,
-          onPaste: () {
-            _controller.text = text;
-            widget.onChanged?.call(text);
-            widget.hideCurrentSnackBar?.call(context);
-          },
-        ),
+        text,
+        () {
+          _controller.text = text;
+          widget.onChanged?.call(text);
+        },
       );
     }
   }

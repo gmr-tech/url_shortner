@@ -13,6 +13,7 @@ import '../domain/input_url.dart';
 import '../domain/input_url_validator.dart';
 import '../infrastructure/injection.dart';
 import '../services/clipboard_service.dart';
+import 'paste_snackbar.dart';
 import 'present_constants.dart';
 import 'ui_strings.dart';
 
@@ -49,14 +50,7 @@ class HeaderAndList extends StatelessWidget {
                         getClipboard: () => getIt<ClipboardService>().getText(),
                         validateInput: (value) =>
                             InputUrl(value ?? '').validate(),
-                        shouldShowPasteSnackbar: (text) =>
-                            InputUrl(text).isValid(),
-                        showPasteSnackBar: (context, snackBar) =>
-                            ScaffoldMessenger.of(
-                              context,
-                            ).showSnackBar(snackBar),
-                        hideCurrentSnackBar: (context) =>
-                            ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+                        onPasteFromClipboard: handlePasteSnackbarAction,
                       ),
                     ),
                     ShortenUrlButton(
@@ -183,6 +177,25 @@ class HeaderAndList extends StatelessWidget {
           content: const Text(UIStrings.urlCopiedToClipboard),
           duration: PresentConstants.snackBarFastDuration,
           backgroundColor: DSColors.green.shade700,
+        ),
+      );
+    }
+  }
+
+  void handlePasteSnackbarAction(
+    BuildContext context,
+    String text,
+    VoidCallback onPaste,
+  ) {
+    final shouldShow = InputUrl(text).isValid();
+    if (shouldShow) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        PasteSnackBar(
+          context: context,
+          onPaste: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            onPaste();
+          },
         ),
       );
     }
