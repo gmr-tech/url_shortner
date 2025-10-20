@@ -8,7 +8,7 @@ part 'history_event.dart';
 part 'history_state.dart';
 part 'history_bloc.freezed.dart';
 
-@lazySingleton
+@LazySingleton()
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistoryBloc() : super(const HistoryState.initial()) {
     on<HistoryEvent>(
@@ -20,7 +20,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   }
 
   void _onAdd(
-    HistoryEvent event,
+    _Add event,
     Emitter<HistoryState> emit,
   ) {
     final currentState = state;
@@ -42,7 +42,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   }
 
   void _onRemove(
-    HistoryEvent event,
+    _Remove event,
     Emitter<HistoryState> emit,
   ) {
     final currentState = state;

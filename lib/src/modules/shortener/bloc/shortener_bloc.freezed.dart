@@ -424,14 +424,14 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( InputUrl inputUrl)?  hasInput,TResult Function()?  loading,TResult Function( ShortenedUrl shortenedUrl)?  success,TResult Function( Failure failure)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( InputUrl inputUrl)?  hasInput,TResult Function()?  loading,TResult Function( ShortenedUrl shortenedUrl)?  success,TResult Function( Failure failure,  InputUrl? inputUrl)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ShortenerInitial() when initial != null:
 return initial();case ShortenerHasInput() when hasInput != null:
 return hasInput(_that.inputUrl);case ShortenerLoading() when loading != null:
 return loading();case ShortenerSuccess() when success != null:
 return success(_that.shortenedUrl);case ShortenerFailure() when failure != null:
-return failure(_that.failure);case _:
+return failure(_that.failure,_that.inputUrl);case _:
   return orElse();
 
 }
@@ -449,14 +449,14 @@ return failure(_that.failure);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( InputUrl inputUrl)  hasInput,required TResult Function()  loading,required TResult Function( ShortenedUrl shortenedUrl)  success,required TResult Function( Failure failure)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( InputUrl inputUrl)  hasInput,required TResult Function()  loading,required TResult Function( ShortenedUrl shortenedUrl)  success,required TResult Function( Failure failure,  InputUrl? inputUrl)  failure,}) {final _that = this;
 switch (_that) {
 case ShortenerInitial():
 return initial();case ShortenerHasInput():
 return hasInput(_that.inputUrl);case ShortenerLoading():
 return loading();case ShortenerSuccess():
 return success(_that.shortenedUrl);case ShortenerFailure():
-return failure(_that.failure);}
+return failure(_that.failure,_that.inputUrl);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -470,14 +470,14 @@ return failure(_that.failure);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( InputUrl inputUrl)?  hasInput,TResult? Function()?  loading,TResult? Function( ShortenedUrl shortenedUrl)?  success,TResult? Function( Failure failure)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( InputUrl inputUrl)?  hasInput,TResult? Function()?  loading,TResult? Function( ShortenedUrl shortenedUrl)?  success,TResult? Function( Failure failure,  InputUrl? inputUrl)?  failure,}) {final _that = this;
 switch (_that) {
 case ShortenerInitial() when initial != null:
 return initial();case ShortenerHasInput() when hasInput != null:
 return hasInput(_that.inputUrl);case ShortenerLoading() when loading != null:
 return loading();case ShortenerSuccess() when success != null:
 return success(_that.shortenedUrl);case ShortenerFailure() when failure != null:
-return failure(_that.failure);case _:
+return failure(_that.failure,_that.inputUrl);case _:
   return null;
 
 }
@@ -685,10 +685,11 @@ as ShortenedUrl,
 
 
 class ShortenerFailure implements ShortenerState {
-  const ShortenerFailure({required this.failure});
+  const ShortenerFailure({required this.failure, this.inputUrl});
   
 
  final  Failure failure;
+ final  InputUrl? inputUrl;
 
 /// Create a copy of ShortenerState
 /// with the given fields replaced by the non-null parameter values.
@@ -700,16 +701,16 @@ $ShortenerFailureCopyWith<ShortenerFailure> get copyWith => _$ShortenerFailureCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ShortenerFailure&&(identical(other.failure, failure) || other.failure == failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ShortenerFailure&&(identical(other.failure, failure) || other.failure == failure)&&(identical(other.inputUrl, inputUrl) || other.inputUrl == inputUrl));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode => Object.hash(runtimeType,failure,inputUrl);
 
 @override
 String toString() {
-  return 'ShortenerState.failure(failure: $failure)';
+  return 'ShortenerState.failure(failure: $failure, inputUrl: $inputUrl)';
 }
 
 
@@ -720,7 +721,7 @@ abstract mixin class $ShortenerFailureCopyWith<$Res> implements $ShortenerStateC
   factory $ShortenerFailureCopyWith(ShortenerFailure value, $Res Function(ShortenerFailure) _then) = _$ShortenerFailureCopyWithImpl;
 @useResult
 $Res call({
- Failure failure
+ Failure failure, InputUrl? inputUrl
 });
 
 
@@ -737,10 +738,11 @@ class _$ShortenerFailureCopyWithImpl<$Res>
 
 /// Create a copy of ShortenerState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? failure = null,Object? inputUrl = freezed,}) {
   return _then(ShortenerFailure(
 failure: null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
-as Failure,
+as Failure,inputUrl: freezed == inputUrl ? _self.inputUrl : inputUrl // ignore: cast_nullable_to_non_nullable
+as InputUrl?,
   ));
 }
 

@@ -48,12 +48,11 @@ class HeaderAndList extends StatelessWidget {
                       ),
                     ),
                     ShortenUrlButton(
-                      onPressed: state is ShortenerHasInput
-                          ? () => onFieldSubmitted(
-                              context,
-                              state,
-                            )
-                          : null,
+                      onPressed: () => onFieldSubmitted(
+                        context,
+                        state,
+                      ),
+                      state: state,
                     ),
                   ],
                 ),
@@ -122,7 +121,7 @@ class HeaderAndList extends StatelessWidget {
     ShortenerState state,
   ) async {
     switch (state) {
-      case final ShortenerFailure _:
+      case final ShortenerFailure failure:
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -132,8 +131,11 @@ class HeaderAndList extends StatelessWidget {
           );
         }
         await Future.delayed(PresentConstants.resetDuration);
-        if (context.mounted) {
-          context.read<ShortenerBloc>().add(const ShortenerEvent.reset());
+        final currentInput = failure.inputUrl;
+        if (context.mounted && currentInput != null) {
+          context.read<ShortenerBloc>().add(
+            ShortenerEvent.addInput(inputUrl: currentInput),
+          );
         }
         break;
       case final ShortenerSuccess success:

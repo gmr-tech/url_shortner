@@ -13,13 +13,13 @@ extension InputUrlValidator on InputUrl {
       return UIStrings.invalidUrlFormat;
     }
 
-    if (uri.scheme != 'http' && uri.scheme != 'https') {
-      return UIStrings.invalidUrlProtocol;
-    }
-
-    if (uri.host.isEmpty) {
-      return UIStrings.invalidUrlHost;
-    }
+    // TODO(gmrrenat): Should we enforce protocol check?
+    // if (uri.scheme != 'http' && uri.scheme != 'https') {
+    //   return UIStrings.invalidUrlProtocol;
+    // }
+    // if (uri.host.isEmpty) {
+    //   return UIStrings.invalidUrlHost;
+    // }
 
     return null;
   }

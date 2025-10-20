@@ -12,5 +12,6 @@ sealed class ShortenerState with _$ShortenerState {
   }) = ShortenerSuccess;
   const factory ShortenerState.failure({
     required Failure failure,
+    InputUrl? inputUrl,
   }) = ShortenerFailure;
 }
