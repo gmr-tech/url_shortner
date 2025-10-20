@@ -19,9 +19,9 @@ void main() {
       when(() => mockCopyToClipboard.call(any())).thenAnswer((_) async {});
     });
 
-    group('Data Display', () {
+    group('Widget Rendering', () {
       testWidgets(
-        'displays shortened URL data correctly',
+        'renders correctly with data',
         (tester) async {
           void onDelete() {}
 
@@ -102,7 +102,7 @@ void main() {
       );
     });
 
-    group('Copy Functionality', () {
+    group('User Interactions', () {
       testWidgets(
         'calls onCopyToClipboard when copy button is tapped',
         (tester) async {
@@ -172,7 +172,7 @@ void main() {
       );
     });
 
-    group('Delete Functionality', () {
+    group('Callback Functions', () {
       testWidgets(
         'calls onDelete when provided',
         (tester) async {

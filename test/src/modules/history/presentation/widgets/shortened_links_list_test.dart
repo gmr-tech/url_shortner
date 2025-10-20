@@ -10,9 +10,9 @@ import '../../../../../helpers/widget_test_helper.dart';
 
 void main() {
   group('ShortenedLinksList Widget', () {
-    group('Empty State', () {
+    group('Widget Rendering', () {
       testWidgets(
-        'shows EmptyHistory when links list is empty',
+        'renders correctly when empty',
         (tester) async {
           await WidgetTestHelper.pumpWidget(
             tester,
@@ -29,9 +29,9 @@ void main() {
       );
     });
 
-    group('Non-Empty State', () {
+    group('State Behavior', () {
       testWidgets(
-        'shows title and ListView when links list is not empty',
+        'shows content when has items',
         (tester) async {
           await WidgetTestHelper.pumpWidget(
             tester,
