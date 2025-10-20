@@ -22,6 +22,6 @@ abstract class ShortenedUrlDTO with _$ShortenedUrlDTO {
     aliasId: aliasId,
     originalUrl: originalUrl,
     shortUrl: shortUrl,
-    createdAt: DateTime.now(),
+    createdAt: DateTime.now().subtract(const Duration(days: 2)),
   );
 }

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import '../../../../common/domain/shortened_url.dart';
 import '../../../../common/presentation/present_constants.dart';
 import '../../../../common/presentation/ui_strings.dart';
+import '../../../../utils/date_time_extensions.dart';
 
 /// A custom tile of a shortened links with:
 ///
@@ -47,15 +48,16 @@ class ShortenedLinkTile extends StatelessWidget {
                   const DSBoxSpace.small(),
                   Text(
                     shortenedLink.shortUrl,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  const DSBoxSpace.xSmall(),
+                  const DSBoxSpace.small(),
                   Text(
                     shortenedLink.originalUrl,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
+                  const DSBoxSpace.xSmall(),
                   Text(
-                    shortenedLink.createdAt.toLocal().toString(),
+                    shortenedLink.createdAt.toUserFriendlyString(),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],

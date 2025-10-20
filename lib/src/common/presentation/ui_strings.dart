@@ -19,4 +19,5 @@ abstract class UIStrings {
       'Do you want to paste the URL from clipboard?';
   static const String dismiss = 'Dismiss';
   static const String paste = 'Paste';
+  static const String yesterdayAt = 'Ontem às';
 }
