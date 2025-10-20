@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'present_constants.dart';
 import 'ui_strings.dart';
 
-class PasteSnackbar extends SnackBar {
-  PasteSnackbar({
+class PasteSnackBar extends SnackBar {
+  PasteSnackBar({
     required Function() onPaste,
     required BuildContext context,
     super.key,

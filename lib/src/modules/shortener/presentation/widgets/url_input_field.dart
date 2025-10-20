@@ -11,9 +11,11 @@ class UrlInputField extends StatefulWidget {
     this.onChanged,
     this.onFieldSubmitted,
     this.onClear,
-    this.getClipboardText,
+    this.getClipboard,
     this.validateInput,
     this.shouldShowPasteSnackbar,
+    this.showPasteSnackBar,
+    this.hideCurrentSnackBar,
     super.key,
   });
 
@@ -21,9 +23,11 @@ class UrlInputField extends StatefulWidget {
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
   final Function()? onClear;
-  final Future<String?> Function()? getClipboardText;
+  final Future<String?> Function()? getClipboard;
   final String? Function(String?)? validateInput;
   final bool Function(String)? shouldShowPasteSnackbar;
+  final void Function(BuildContext, SnackBar)? showPasteSnackBar;
+  final void Function(BuildContext)? hideCurrentSnackBar;
 
   @override
   State<UrlInputField> createState() => _UrlInputFieldState();
@@ -129,22 +133,23 @@ class _UrlInputFieldState extends State<UrlInputField> {
   }
 
   void handlePaste() async {
-    final text = await widget.getClipboardText?.call() ?? '';
+    final text = await widget.getClipboard?.call() ?? '';
     _controller.text = text;
     widget.onChanged?.call(text);
   }
 
   void handleInitialPaste(BuildContext context) async {
-    final text = await widget.getClipboardText?.call() ?? '';
+    final text = await widget.getClipboard?.call() ?? '';
     final shouldShow = widget.shouldShowPasteSnackbar?.call(text) ?? false;
     if (context.mounted && shouldShow) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        PasteSnackbar(
+      widget.showPasteSnackBar?.call(
+        context,
+        PasteSnackBar(
           context: context,
           onPaste: () {
             _controller.text = text;
             widget.onChanged?.call(text);
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            widget.hideCurrentSnackBar?.call(context);
           },
         ),
       );

@@ -46,12 +46,17 @@ class HeaderAndList extends StatelessWidget {
                         onClear: () => context.read<ShortenerBloc>().add(
                           const ShortenerEvent.reset(),
                         ),
-                        getClipboardText: () =>
-                            getIt<ClipboardService>().getText(),
+                        getClipboard: () => getIt<ClipboardService>().getText(),
                         validateInput: (value) =>
                             InputUrl(value ?? '').validate(),
                         shouldShowPasteSnackbar: (text) =>
                             InputUrl(text).isValid(),
+                        showPasteSnackBar: (context, snackBar) =>
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(snackBar),
+                        hideCurrentSnackBar: (context) =>
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar(),
                       ),
                     ),
                     ShortenUrlButton(
@@ -77,6 +82,15 @@ class HeaderAndList extends StatelessWidget {
                 links: updated.shortenedUrls,
                 onItemDelete: (link) => context.read<HistoryBloc>().add(
                   HistoryEvent.remove(link),
+                ),
+                copyToClipboard: (text) =>
+                    getIt<ClipboardService>().setText(text),
+                onCopySuccess: () => ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text(UIStrings.urlCopiedToClipboard),
+                    duration: PresentConstants.snackBarFastDuration,
+                    backgroundColor: DSColors.green.shade700,
+                  ),
                 ),
               ),
             },

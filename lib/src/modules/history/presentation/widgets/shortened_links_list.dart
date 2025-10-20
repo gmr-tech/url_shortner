@@ -2,9 +2,7 @@ import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/domain/shortened_url.dart';
-import '../../../../common/infrastructure/injection.dart';
 import '../../../../common/presentation/ui_strings.dart';
-import '../../../../common/services/clipboard_service.dart';
 import 'empty_history.dart';
 import 'shortened_link_tile.dart';
 
@@ -12,11 +10,15 @@ class ShortenedLinksList extends StatelessWidget {
   const ShortenedLinksList({
     required this.links,
     required this.onItemDelete,
+    this.copyToClipboard,
+    this.onCopySuccess,
     super.key,
   });
 
   final List<ShortenedUrl> links;
   final Function(ShortenedUrl) onItemDelete;
+  final Future<void> Function(String)? copyToClipboard;
+  final void Function()? onCopySuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,8 @@ class ShortenedLinksList extends StatelessWidget {
             itemBuilder: (context, index) => ShortenedLinkTile(
               shortenedLink: links[index],
               onDelete: () => onItemDelete(links[index]),
-              setTextToClipboard: getIt<ClipboardService>().setText,
+              copyToClipboard: copyToClipboard,
+              onCopySuccess: onCopySuccess,
             ),
             separatorBuilder: (context, index) => const Divider(
               height: DSSize.borderThicknessSmall,

@@ -2,7 +2,7 @@ import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/domain/shortened_url.dart';
-import '../../../../common/presentation/present_constants.dart';
+
 import '../../../../common/presentation/ui_strings.dart';
 import '../../../../utils/date_time_extensions.dart';
 
@@ -20,13 +20,15 @@ class ShortenedLinkTile extends StatelessWidget {
   const ShortenedLinkTile({
     required this.shortenedLink,
     required this.onDelete,
-    this.setTextToClipboard,
+    this.copyToClipboard,
+    this.onCopySuccess,
     super.key,
   });
 
   final ShortenedUrl shortenedLink;
   final Function() onDelete;
-  final Future<void> Function(String)? setTextToClipboard;
+  final Future<void> Function(String)? copyToClipboard;
+  final void Function()? onCopySuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -135,15 +137,7 @@ class ShortenedLinkTile extends StatelessWidget {
   }
 
   void onCopy(BuildContext context, String url) async {
-    await setTextToClipboard?.call(url);
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(UIStrings.urlCopiedToClipboard),
-          duration: PresentConstants.snackBarFastDuration,
-          backgroundColor: DSColors.green.shade700,
-        ),
-      );
-    }
+    await copyToClipboard?.call(url);
+    onCopySuccess?.call();
   }
 }
