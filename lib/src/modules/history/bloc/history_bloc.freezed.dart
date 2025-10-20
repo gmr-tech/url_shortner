@@ -86,11 +86,12 @@ extension HistoryEventPatterns on HistoryEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Add value)?  add,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Add value)?  add,TResult Function( _Remove value)?  remove,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Add() when add != null:
-return add(_that);case _:
+return add(_that);case _Remove() when remove != null:
+return remove(_that);case _:
   return orElse();
 
 }
@@ -108,11 +109,12 @@ return add(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Add value)  add,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Add value)  add,required TResult Function( _Remove value)  remove,}){
 final _that = this;
 switch (_that) {
 case _Add():
-return add(_that);}
+return add(_that);case _Remove():
+return remove(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -126,11 +128,12 @@ return add(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Add value)?  add,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Add value)?  add,TResult? Function( _Remove value)?  remove,}){
 final _that = this;
 switch (_that) {
 case _Add() when add != null:
-return add(_that);case _:
+return add(_that);case _Remove() when remove != null:
+return remove(_that);case _:
   return null;
 
 }
@@ -147,10 +150,11 @@ return add(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( ShortenedUrl shortenedUrl)?  add,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( ShortenedUrl shortenedUrl)?  add,TResult Function( ShortenedUrl shortenedUrl)?  remove,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Add() when add != null:
-return add(_that.shortenedUrl);case _:
+return add(_that.shortenedUrl);case _Remove() when remove != null:
+return remove(_that.shortenedUrl);case _:
   return orElse();
 
 }
@@ -168,10 +172,11 @@ return add(_that.shortenedUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( ShortenedUrl shortenedUrl)  add,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( ShortenedUrl shortenedUrl)  add,required TResult Function( ShortenedUrl shortenedUrl)  remove,}) {final _that = this;
 switch (_that) {
 case _Add():
-return add(_that.shortenedUrl);}
+return add(_that.shortenedUrl);case _Remove():
+return remove(_that.shortenedUrl);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -185,10 +190,11 @@ return add(_that.shortenedUrl);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( ShortenedUrl shortenedUrl)?  add,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( ShortenedUrl shortenedUrl)?  add,TResult? Function( ShortenedUrl shortenedUrl)?  remove,}) {final _that = this;
 switch (_that) {
 case _Add() when add != null:
-return add(_that.shortenedUrl);case _:
+return add(_that.shortenedUrl);case _Remove() when remove != null:
+return remove(_that.shortenedUrl);case _:
   return null;
 
 }
@@ -254,6 +260,72 @@ class __$AddCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? shortenedUrl = null,}) {
   return _then(_Add(
+null == shortenedUrl ? _self.shortenedUrl : shortenedUrl // ignore: cast_nullable_to_non_nullable
+as ShortenedUrl,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _Remove implements HistoryEvent {
+  const _Remove(this.shortenedUrl);
+  
+
+@override final  ShortenedUrl shortenedUrl;
+
+/// Create a copy of HistoryEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$RemoveCopyWith<_Remove> get copyWith => __$RemoveCopyWithImpl<_Remove>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Remove&&(identical(other.shortenedUrl, shortenedUrl) || other.shortenedUrl == shortenedUrl));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,shortenedUrl);
+
+@override
+String toString() {
+  return 'HistoryEvent.remove(shortenedUrl: $shortenedUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$RemoveCopyWith<$Res> implements $HistoryEventCopyWith<$Res> {
+  factory _$RemoveCopyWith(_Remove value, $Res Function(_Remove) _then) = __$RemoveCopyWithImpl;
+@override @useResult
+$Res call({
+ ShortenedUrl shortenedUrl
+});
+
+
+
+
+}
+/// @nodoc
+class __$RemoveCopyWithImpl<$Res>
+    implements _$RemoveCopyWith<$Res> {
+  __$RemoveCopyWithImpl(this._self, this._then);
+
+  final _Remove _self;
+  final $Res Function(_Remove) _then;
+
+/// Create a copy of HistoryEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? shortenedUrl = null,}) {
+  return _then(_Remove(
 null == shortenedUrl ? _self.shortenedUrl : shortenedUrl // ignore: cast_nullable_to_non_nullable
 as ShortenedUrl,
   ));

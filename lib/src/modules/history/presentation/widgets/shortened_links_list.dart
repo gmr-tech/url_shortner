@@ -2,6 +2,7 @@ import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/domain/shortened_url.dart';
+import '../../../../common/presentation/ui_strings.dart';
 import 'empty_history.dart';
 import 'shortened_link_tile.dart';
 
@@ -29,7 +30,7 @@ class ShortenedLinksList extends StatelessWidget {
               horizontal: DSSpace.medium,
             ),
             child: Text(
-              'Recently shortened URLs',
+              UIStrings.recentlyShortenedUrls,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),

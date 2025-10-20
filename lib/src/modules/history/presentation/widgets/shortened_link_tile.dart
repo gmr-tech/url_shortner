@@ -1,7 +1,10 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/domain/shortened_url.dart';
+import '../../../../common/presentation/ui_strings.dart';
+import '../../bloc/history_bloc.dart';
 
 /// A custom tile of a shortened links with:
 ///
@@ -26,25 +29,103 @@ class ShortenedLinkTile extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: DSSpace.medium,
-          vertical: DSSpace.small,
+        padding: const EdgeInsets.fromLTRB(
+          DSSpace.medium,
+          0,
+          DSSpace.small,
+          DSSpace.small,
         ),
-        child: Column(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              shortenedLink.shortUrl,
-              style: Theme.of(context).textTheme.titleMedium,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const DSBoxSpace.small(),
+                  Text(
+                    shortenedLink.shortUrl,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const DSBoxSpace.xSmall(),
+                  Text(
+                    shortenedLink.originalUrl,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  Text(
+                    shortenedLink.createdAt.toLocal().toString(),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
             ),
-            const DSBoxSpace.xSmall(),
-            Text(
-              shortenedLink.originalUrl,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            Text(
-              shortenedLink.createdAt.toLocal().toString(),
-              style: Theme.of(context).textTheme.bodySmall,
+            Column(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.copy,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                ),
+                PopupMenuButton(
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 'copy short',
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: DSSpace.medium,
+                        vertical: DSSpace.small,
+                      ),
+                      child: const Row(
+                        spacing: DSSpace.small,
+                        children: [
+                          Icon(Icons.copy),
+                          Text(UIStrings.copyShortUrl),
+                        ],
+                      ),
+                      onTap: () {},
+                    ),
+                    PopupMenuItem(
+                      value: 'copy original',
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: DSSpace.medium,
+                        vertical: DSSpace.small,
+                      ),
+                      child: const Row(
+                        spacing: DSSpace.small,
+                        children: [
+                          Icon(Icons.copy_rounded),
+                          Text(UIStrings.copyOriginalUrl),
+                        ],
+                      ),
+                      onTap: () {},
+                    ),
+                    PopupMenuItem(
+                      value: 'delete',
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: DSSpace.medium,
+                        vertical: DSSpace.small,
+                      ),
+                      child: const Row(
+                        spacing: DSSpace.small,
+                        children: [
+                          Icon(
+                            Icons.delete,
+                          ),
+                          Text(UIStrings.deleteFromHistory),
+                        ],
+                      ),
+                      onTap: () => context.read<HistoryBloc>().add(
+                        HistoryEvent.remove(shortenedLink),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),

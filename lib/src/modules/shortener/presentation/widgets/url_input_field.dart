@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../common/domain/input_url.dart';
 import '../../../../common/domain/input_url_validator.dart';
+import '../../../../common/presentation/ui_strings.dart';
 import '../../bloc/shortener_bloc.dart';
 
 class UrlInputField extends StatelessWidget {
@@ -21,7 +22,7 @@ class UrlInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: 'Enter URL to shorten',
+        labelText: UIStrings.enterUrlHint,
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(DSProperty.radius),
         ),

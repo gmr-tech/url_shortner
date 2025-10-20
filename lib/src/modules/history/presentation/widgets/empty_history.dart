@@ -1,6 +1,8 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../common/presentation/ui_strings.dart';
+
 class EmptyHistory extends StatelessWidget {
   const EmptyHistory({
     super.key,
@@ -20,7 +22,7 @@ class EmptyHistory extends StatelessWidget {
               size: DSSize.iconSizeXLarge,
             ),
             Text(
-              'No shortened URLs yet!',
+              UIStrings.noShortenedUrls,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],

@@ -10,6 +10,7 @@ import '../../modules/shortener/presentation/widgets/shorten_url_button.dart';
 import '../../modules/shortener/presentation/widgets/url_input_field.dart';
 import '../domain/input_url.dart';
 import '../domain/input_url_validator.dart';
+import 'ui_strings.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -21,7 +22,7 @@ class Home extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
-          title: const Text('URL Shortener App'),
+          title: const Text(UIStrings.appTitle),
           elevation: 2,
         ),
         body: Column(
@@ -116,9 +117,7 @@ class Home extends StatelessWidget {
             SnackBar(
               duration: resetDuration,
               backgroundColor: DSColors.red.shade700,
-              content: Text(
-                'Failure: ${state.failure.runtimeType}',
-              ),
+              content: const Text(UIStrings.failureMessage),
             ),
           );
         }
@@ -137,7 +136,7 @@ class Home extends StatelessWidget {
               duration: resetDuration,
               backgroundColor: DSColors.green.shade700,
               content: Text(
-                'Shortened URL: ${state.shortenedUrl.shortUrl}',
+                '${UIStrings.successMessage} ${state.shortenedUrl.shortUrl}',
               ),
             ),
           );

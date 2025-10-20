@@ -11,11 +11,12 @@ part 'history_bloc.freezed.dart';
 @lazySingleton
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistoryBloc() : super(const HistoryState.initial()) {
-    on<HistoryEvent>((event, emit) {
-      if (event is _Add) {
-        _onAdd(event, emit);
-      }
-    });
+    on<HistoryEvent>(
+      (event, emit) => switch (event) {
+        _Add() => _onAdd(event, emit),
+        _Remove() => _onRemove(event, emit),
+      },
+    );
   }
 
   void _onAdd(
@@ -38,5 +39,28 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         lastUpdated: DateTime.now(),
       ),
     );
+  }
+
+  void _onRemove(
+    HistoryEvent event,
+    Emitter<HistoryState> emit,
+  ) {
+    final currentState = state;
+
+    if (currentState is HistoryUpdated) {
+      final newList = List<ShortenedUrl>.from(currentState.shortenedUrls)
+        ..remove(event.shortenedUrl);
+
+      if (newList.isEmpty) {
+        return emit(const HistoryState.initial());
+      }
+
+      return emit(
+        HistoryState.updated(
+          shortenedUrls: newList,
+          lastUpdated: DateTime.now(),
+        ),
+      );
+    }
   }
 }
