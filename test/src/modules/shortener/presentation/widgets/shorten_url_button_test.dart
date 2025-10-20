@@ -4,8 +4,8 @@ import 'package:url_shortener/src/common/domain/failure.dart';
 import 'package:url_shortener/src/modules/shortener/bloc/shortener_bloc.dart';
 import 'package:url_shortener/src/modules/shortener/presentation/widgets/shorten_url_button.dart';
 
-import '../../../../helpers/test_data.dart';
-import '../../../../helpers/widget_test_helper.dart';
+import '../../../../../helpers/test_data.dart';
+import '../../../../../helpers/widget_test_helper.dart';
 
 void main() {
   group('ShortenUrlButton Widget', () {

@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:url_shortener/src/modules/history/presentation/widgets/shortened_link_tile.dart';
 
-import '../../../../helpers/test_data.dart';
-import '../../../../helpers/widget_test_helper.dart';
+import '../../../../../helpers/test_data.dart';
+import '../../../../../helpers/widget_test_helper.dart';
 
 class MockCopyToClipboard extends Mock {
   Future<void> call(String url);

@@ -5,8 +5,8 @@ import 'package:url_shortener/src/modules/history/presentation/widgets/empty_his
 import 'package:url_shortener/src/modules/history/presentation/widgets/shortened_link_tile.dart';
 import 'package:url_shortener/src/modules/history/presentation/widgets/shortened_links_list.dart';
 
-import '../../../../helpers/test_data.dart';
-import '../../../../helpers/widget_test_helper.dart';
+import '../../../../../helpers/test_data.dart';
+import '../../../../../helpers/widget_test_helper.dart';
 
 void main() {
   group('ShortenedLinksList Widget', () {
