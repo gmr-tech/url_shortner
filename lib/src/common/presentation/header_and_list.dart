@@ -9,6 +9,7 @@ import '../../modules/history/presentation/widgets/shortened_links_list.dart';
 import '../../modules/shortener/bloc/shortener_bloc.dart';
 import '../../modules/shortener/presentation/widgets/shorten_url_button.dart';
 import '../../modules/shortener/presentation/widgets/url_input_field.dart';
+import '../../utils/get_text_size.dart';
 import '../domain/input_url.dart';
 import '../domain/input_url_validator.dart';
 import 'present_constants.dart';
@@ -23,7 +24,7 @@ class HeaderAndList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
-          height: 48 + DSSpace.medium * 2 + DSSpace.small + 12,
+          height: headerHeight(context),
           child: Material(
             child: Padding(
               padding: const EdgeInsets.all(DSSpace.medium),
@@ -77,6 +78,19 @@ class HeaderAndList extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  double headerHeight(BuildContext context) {
+    return DSSpace.medium + // TextField top padding
+        DSSize.materialTapTargetSize + // TextField inner height
+        DSSpace.medium + // TextField inner padding
+        DSSpace.xSmall + // Spacing between TextField and error message
+        getOneLineTextSize(
+          UIStrings.failureMessage,
+          Theme.of(context).textTheme.bodySmall,
+          context,
+        ).height + // Error message height
+        DSSpace.xSmall; // Extra bottom padding
   }
 
   void onChanged(BuildContext context, String value) {

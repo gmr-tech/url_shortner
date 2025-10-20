@@ -13,6 +13,8 @@ class DSSize {
   static const double borderThicknessLarge = 2;
   static const double borderThicknessXLarge = 3;
 
+  static const double materialTapTargetSize = 48;
+
   static const double dividerThicknessSmall = 0.5;
   static const double dividerThickness = 1;
   static const double dividerThicknessLarge = 2;
