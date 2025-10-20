@@ -7,9 +7,12 @@ abstract class UIStrings {
   static const String recentlyShortenedUrls = 'Recently shortened URLs';
   static const String failureMessage =
       'Failed to shorten URL, please try again.';
-  static const String successMessage = 'Shortened URL: ';
+  static const String successMessage =
+      'Short URL generated and copied to clipboard successfully!';
   static const String enterUrlHint = 'Enter a URL to shorten';
   static const String copyShortUrl = 'Copy short URL';
   static const String copyOriginalUrl = 'Copy original URL';
   static const String deleteFromHistory = 'Delete from history';
+  static const String urlCopiedToClipboard =
+      'URL copied to clipboard successfully!';
 }

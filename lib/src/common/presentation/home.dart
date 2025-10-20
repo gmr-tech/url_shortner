@@ -1,5 +1,6 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../modules/history/bloc/history_bloc.dart';
@@ -10,6 +11,7 @@ import '../../modules/shortener/presentation/widgets/shorten_url_button.dart';
 import '../../modules/shortener/presentation/widgets/url_input_field.dart';
 import '../domain/input_url.dart';
 import '../domain/input_url_validator.dart';
+import 'present_constants.dart';
 import 'ui_strings.dart';
 
 class Home extends StatelessWidget {
@@ -71,6 +73,9 @@ class Home extends StatelessWidget {
                   ),
                   final HistoryUpdated updated => ShortenedLinksList(
                     links: updated.shortenedUrls,
+                    onItemDelete: (link) => context.read<HistoryBloc>().add(
+                      HistoryEvent.remove(link),
+                    ),
                   ),
                 },
               ),
@@ -109,34 +114,34 @@ class Home extends StatelessWidget {
     BuildContext context,
     ShortenerState state,
   ) async {
-    const resetDuration = Duration(seconds: 3);
     switch (state) {
-      case ShortenerFailure():
+      case final ShortenerFailure _:
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              duration: resetDuration,
               backgroundColor: DSColors.red.shade700,
               content: const Text(UIStrings.failureMessage),
             ),
           );
         }
-        await Future.delayed(resetDuration);
+        await Future.delayed(PresentConstants.resetDuration);
         if (context.mounted) {
           context.read<ShortenerBloc>().add(const ShortenerEvent.reset());
         }
         break;
-      case ShortenerSuccess():
+      case final ShortenerSuccess success:
+        context.read<HistoryBloc>().add(
+          HistoryEvent.add(state.shortenedUrl),
+        );
+        await Clipboard.setData(
+          ClipboardData(text: success.shortenedUrl.shortUrl),
+        );
         if (context.mounted) {
-          context.read<HistoryBloc>().add(
-            HistoryEvent.add(state.shortenedUrl),
-          );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              duration: resetDuration,
               backgroundColor: DSColors.green.shade700,
               content: Text(
-                '${UIStrings.successMessage} ${state.shortenedUrl.shortUrl}',
+                '${UIStrings.successMessage}\n${state.shortenedUrl.shortUrl}',
               ),
             ),
           );

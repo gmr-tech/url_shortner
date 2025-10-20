@@ -1,10 +1,10 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../common/domain/shortened_url.dart';
+import '../../../../common/presentation/present_constants.dart';
 import '../../../../common/presentation/ui_strings.dart';
-import '../../bloc/history_bloc.dart';
 
 /// A custom tile of a shortened links with:
 ///
@@ -19,15 +19,17 @@ import '../../bloc/history_bloc.dart';
 class ShortenedLinkTile extends StatelessWidget {
   const ShortenedLinkTile({
     required this.shortenedLink,
+    required this.onDelete,
     super.key,
   });
 
   final ShortenedUrl shortenedLink;
+  final Function() onDelete;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => onCopy(context, shortenedLink.shortUrl),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
           DSSpace.medium,
@@ -62,7 +64,7 @@ class ShortenedLinkTile extends StatelessWidget {
             Column(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => onCopy(context, shortenedLink.shortUrl),
                   icon: Icon(
                     Icons.copy,
                     color: Theme.of(context).disabledColor,
@@ -87,7 +89,7 @@ class ShortenedLinkTile extends StatelessWidget {
                           Text(UIStrings.copyShortUrl),
                         ],
                       ),
-                      onTap: () {},
+                      onTap: () => onCopy(context, shortenedLink.shortUrl),
                     ),
                     PopupMenuItem(
                       value: 'copy original',
@@ -102,7 +104,7 @@ class ShortenedLinkTile extends StatelessWidget {
                           Text(UIStrings.copyOriginalUrl),
                         ],
                       ),
-                      onTap: () {},
+                      onTap: () => onCopy(context, shortenedLink.originalUrl),
                     ),
                     PopupMenuItem(
                       value: 'delete',
@@ -110,17 +112,13 @@ class ShortenedLinkTile extends StatelessWidget {
                         horizontal: DSSpace.medium,
                         vertical: DSSpace.small,
                       ),
+                      onTap: onDelete,
                       child: const Row(
                         spacing: DSSpace.small,
                         children: [
-                          Icon(
-                            Icons.delete,
-                          ),
+                          Icon(Icons.delete),
                           Text(UIStrings.deleteFromHistory),
                         ],
-                      ),
-                      onTap: () => context.read<HistoryBloc>().add(
-                        HistoryEvent.remove(shortenedLink),
                       ),
                     ),
                   ],
@@ -131,5 +129,18 @@ class ShortenedLinkTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onCopy(BuildContext context, String url) async {
+    await Clipboard.setData(ClipboardData(text: url));
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(UIStrings.urlCopiedToClipboard),
+          duration: PresentConstants.snackBarFastDuration,
+          backgroundColor: DSColors.green.shade700,
+        ),
+      );
+    }
   }
 }

@@ -9,10 +9,12 @@ import 'shortened_link_tile.dart';
 class ShortenedLinksList extends StatelessWidget {
   const ShortenedLinksList({
     required this.links,
+    required this.onItemDelete,
     super.key,
   });
 
   final List<ShortenedUrl> links;
+  final Function(ShortenedUrl) onItemDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class ShortenedLinksList extends StatelessWidget {
             itemCount: links.length,
             itemBuilder: (context, index) => ShortenedLinkTile(
               shortenedLink: links[index],
+              onDelete: () => onItemDelete(links[index]),
             ),
             separatorBuilder: (context, index) => const Divider(
               height: DSSize.borderThicknessSmall,
