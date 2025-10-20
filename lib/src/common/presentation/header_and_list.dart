@@ -12,6 +12,8 @@ import '../../modules/shortener/presentation/widgets/url_input_field.dart';
 import '../../utils/get_text_size.dart';
 import '../domain/input_url.dart';
 import '../domain/input_url_validator.dart';
+import '../infrastructure/injection.dart';
+import '../services/clipboard_service.dart';
 import 'present_constants.dart';
 import 'ui_strings.dart';
 
@@ -45,6 +47,7 @@ class HeaderAndList extends StatelessWidget {
                         onClear: () => context.read<ShortenerBloc>().add(
                           const ShortenerEvent.reset(),
                         ),
+                        getClipboardText: getIt<ClipboardService>().getText(),
                       ),
                     ),
                     ShortenUrlButton(

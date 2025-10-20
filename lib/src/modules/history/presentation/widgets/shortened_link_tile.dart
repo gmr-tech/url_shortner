@@ -1,6 +1,5 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../../common/domain/shortened_url.dart';
 import '../../../../common/presentation/present_constants.dart';
@@ -21,11 +20,13 @@ class ShortenedLinkTile extends StatelessWidget {
   const ShortenedLinkTile({
     required this.shortenedLink,
     required this.onDelete,
+    this.setTextToClipboard,
     super.key,
   });
 
   final ShortenedUrl shortenedLink;
   final Function() onDelete;
+  final Future<void> Function(String)? setTextToClipboard;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +135,7 @@ class ShortenedLinkTile extends StatelessWidget {
   }
 
   void onCopy(BuildContext context, String url) async {
-    await Clipboard.setData(ClipboardData(text: url));
+    await setTextToClipboard?.call(url);
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

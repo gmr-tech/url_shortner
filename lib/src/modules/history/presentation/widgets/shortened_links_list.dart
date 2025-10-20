@@ -2,7 +2,9 @@ import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/domain/shortened_url.dart';
+import '../../../../common/infrastructure/injection.dart';
 import '../../../../common/presentation/ui_strings.dart';
+import '../../../../common/services/clipboard_service.dart';
 import 'empty_history.dart';
 import 'shortened_link_tile.dart';
 
@@ -43,6 +45,7 @@ class ShortenedLinksList extends StatelessWidget {
             itemBuilder: (context, index) => ShortenedLinkTile(
               shortenedLink: links[index],
               onDelete: () => onItemDelete(links[index]),
+              setTextToClipboard: getIt<ClipboardService>().setText,
             ),
             separatorBuilder: (context, index) => const Divider(
               height: DSSize.borderThicknessSmall,

@@ -1,6 +1,5 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../../common/domain/input_url.dart';
 import '../../../../common/domain/input_url_validator.dart';
@@ -14,6 +13,7 @@ class UrlInputField extends StatefulWidget {
     this.onChanged,
     this.onFieldSubmitted,
     this.onClear,
+    this.getClipboardText,
     super.key,
   });
 
@@ -21,6 +21,7 @@ class UrlInputField extends StatefulWidget {
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
   final Function()? onClear;
+  final Future<String?>? getClipboardText;
 
   @override
   State<UrlInputField> createState() => _UrlInputFieldState();
@@ -126,15 +127,14 @@ class _UrlInputFieldState extends State<UrlInputField> {
   }
 
   void handlePaste() async {
-    final data = await Clipboard.getData(Clipboard.kTextPlain);
-    final text = data?.text ?? '';
+    final text = await widget.getClipboardText ?? '';
     _controller.text = text;
     widget.onChanged?.call(text);
   }
 
   void handleInitialPaste(BuildContext context) async {
-    final data = await Clipboard.getData(Clipboard.kTextPlain);
-    final input = InputUrl(data?.text ?? '');
+    final text = await widget.getClipboardText ?? '';
+    final input = InputUrl(text);
     if (context.mounted && input.isValid()) {
       ScaffoldMessenger.of(context).showSnackBar(
         PasteSnackbar(
