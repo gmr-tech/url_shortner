@@ -18,65 +18,63 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: BlocListener<ShortenerBloc, ShortenerState>(
-        listener: handleListener,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
-            title: const Text('URL Shortener App'),
-            elevation: 2,
-          ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                height: 48 + DSSpace.medium * 2 + DSSpace.small + 12,
-                child: Material(
-                  child: Padding(
-                    padding: const EdgeInsets.all(DSSpace.medium),
-                    child: BlocBuilder<ShortenerBloc, ShortenerState>(
-                      builder: (context, state) => Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: DSSpace.small,
-                        children: [
-                          Expanded(
-                            child: UrlInputField(
-                              state: state,
-                              onChanged: (value) => onChanged(context, value),
-                              onFieldSubmitted: (value) => onFieldSubmitted(
-                                context,
-                                state,
-                              ),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+          title: const Text('URL Shortener App'),
+          elevation: 2,
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              height: 48 + DSSpace.medium * 2 + DSSpace.small + 12,
+              child: Material(
+                child: Padding(
+                  padding: const EdgeInsets.all(DSSpace.medium),
+                  child: BlocConsumer<ShortenerBloc, ShortenerState>(
+                    listener: handleShortenerListener,
+                    builder: (context, state) => Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: DSSpace.small,
+                      children: [
+                        Expanded(
+                          child: UrlInputField(
+                            state: state,
+                            onChanged: (value) => onChanged(context, value),
+                            onFieldSubmitted: (value) => onFieldSubmitted(
+                              context,
+                              state,
                             ),
                           ),
-                          ShortenUrlButton(
-                            onPressed: state is ShortenerHasInput
-                                ? () => onFieldSubmitted(
-                                    context,
-                                    state,
-                                  )
-                                : null,
-                          ),
-                        ],
-                      ),
+                        ),
+                        ShortenUrlButton(
+                          onPressed: state is ShortenerHasInput
+                              ? () => onFieldSubmitted(
+                                  context,
+                                  state,
+                                )
+                              : null,
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: BlocBuilder<HistoryBloc, HistoryState>(
-                  builder: (context, state) => switch (state) {
-                    HistoryInitial _ => const Center(
-                      child: EmptyHistory(),
-                    ),
-                    final HistoryUpdated updated => ShortenedLinksList(
-                      links: updated.shortenedUrls,
-                    ),
-                  },
-                ),
+            ),
+            Expanded(
+              child: BlocBuilder<HistoryBloc, HistoryState>(
+                builder: (context, state) => switch (state) {
+                  HistoryInitial _ => const Center(
+                    child: EmptyHistory(),
+                  ),
+                  final HistoryUpdated updated => ShortenedLinksList(
+                    links: updated.shortenedUrls,
+                  ),
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -106,7 +104,7 @@ class Home extends StatelessWidget {
     }
   }
 
-  Future<void> handleListener(
+  Future<void> handleShortenerListener(
     BuildContext context,
     ShortenerState state,
   ) async {
