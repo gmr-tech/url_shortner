@@ -6,8 +6,23 @@ Aplicativo desenvolvido para o processo seletivo do **Nubank**, com o objetivo d
 
 - Flutter
 - Clean Architecture
-- Domain Driven Design (regras de negócio fortes)
-- Test Driven Development
+- Domain Driven Design (regras de negócio isoladas)
+
+## Decisões e possibilidades
+
+
+1. Foi criado um módulo e um bloc para o histórico pois 
+   1. Fica bem fácil de escalar para uma feature que salva o histórico em banco local
+   2. Mantem a consistencia no gerenciamento de estado
+2. Optei por conectar os repositórios diretamente nos UseCases para manter a simplicidade, mas poderia ter adicionado uma camada de serviços, bem como camadas de datasources (local e remote)
+3. O package de design system foi criado para isolar componentes reutilizáveis e manter a consistência visual. Algumas possibilidades são:
+   1. Criar um ThemeData centralizado
+   2. Extrair o InputTextField para um componente reutilizável
+   3. Aplicar tema claro e escuro com ThemeTailor
+4. Optei por extrair as estring para `UIStrings`, mas poderia ter usado o intl diretamente
+5. O projeto usa o package freezed para DTOs e estados imutáveis para diminuir boilerplate e aumentar a segurança de tipagem
+
+Para todas essas possibilidades, tenho exemplos de projetos que ja implementam essas soluções.
 
 
 ## 🚀 Funcionalidades
@@ -15,7 +30,6 @@ Aplicativo desenvolvido para o processo seletivo do **Nubank**, com o objetivo d
 - Encurtar URLs via API pública.
 - Exibir lista dos links encurtados.
 - Armazenamento temporário em memória.
-- Suporte a PT-BR e EN-US.
 
 
 ## 🌐 API
@@ -77,11 +91,9 @@ packages/
 | Injeção   | Injectable                 |
 | HTTP      | Dio                        |
 | Estado    | flutter_bloc               |
-| Navegação | GoRouter                   |
 | DTOs      | Freezed                    |
 | Testes    | Flutter Test + Golden Test |
 | Funcional | Either (dartz)             |
-| i18n      | l10n                       |
 
 
 ## 🧪 Testes
