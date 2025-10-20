@@ -2,21 +2,20 @@ import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../modules/history/bloc/history_bloc.dart';
+import '../../modules/history/presentation/widgets/empty_history.dart';
 import '../../modules/history/presentation/widgets/shortened_links_list.dart';
 import '../../modules/shortener/bloc/shortener_bloc.dart';
 import '../../modules/shortener/presentation/widgets/shorten_url_button.dart';
 import '../../modules/shortener/presentation/widgets/url_input_field.dart';
 import '../domain/input_url.dart';
 import '../domain/input_url_validator.dart';
-import '../domain/shortened_url.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final shortenerState = context.watch<ShortenerBloc>().state;
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: BlocListener<ShortenerBloc, ShortenerState>(
@@ -35,52 +34,45 @@ class Home extends StatelessWidget {
                 child: Material(
                   child: Padding(
                     padding: const EdgeInsets.all(DSSpace.medium),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: DSSpace.small,
-                      children: [
-                        Expanded(
-                          child: UrlInputField(
-                            state: shortenerState,
-                            onChanged: (value) => onChanged(context, value),
-                            onFieldSubmitted: (value) => onFieldSubmitted(
-                              context,
-                              shortenerState,
+                    child: BlocBuilder<ShortenerBloc, ShortenerState>(
+                      builder: (context, state) => Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: DSSpace.small,
+                        children: [
+                          Expanded(
+                            child: UrlInputField(
+                              state: state,
+                              onChanged: (value) => onChanged(context, value),
+                              onFieldSubmitted: (value) => onFieldSubmitted(
+                                context,
+                                state,
+                              ),
                             ),
                           ),
-                        ),
-                        ShortenUrlButton(
-                          onPressed: shortenerState is ShortenerHasInput
-                              ? () => onFieldSubmitted(context, shortenerState)
-                              : null,
-                        ),
-                      ],
+                          ShortenUrlButton(
+                            onPressed: state is ShortenerHasInput
+                                ? () => onFieldSubmitted(
+                                    context,
+                                    state,
+                                  )
+                                : null,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
               Expanded(
-                child: ShortenedLinksList(
-                  shortenedLinks: List.generate(
-                    20,
-                    (index) => ShortenedUrl(
-                      aliasId: index,
-                      originalUrl: 'https://example.com/original/$index',
-                      shortUrl: 'https://short.ly/$index',
-                      createdAt: DateTime.now().subtract(
-                        Duration(hours: index),
-                      ),
+                child: BlocBuilder<HistoryBloc, HistoryState>(
+                  builder: (context, state) => switch (state) {
+                    HistoryInitial _ => const Center(
+                      child: EmptyHistory(),
                     ),
-                  ).toSet(),
-                ),
-              ),
-              Material(
-                color: Theme.of(context).colorScheme.surfaceContainerHigh,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(DSSpace.medium),
-                    child: Text('shortenerState: $shortenerState'),
-                  ),
+                    final HistoryUpdated updated => ShortenedLinksList(
+                      links: updated.shortenedUrls,
+                    ),
+                  },
                 ),
               ),
             ],
@@ -118,11 +110,13 @@ class Home extends StatelessWidget {
     BuildContext context,
     ShortenerState state,
   ) async {
+    const resetDuration = Duration(seconds: 3);
     switch (state) {
       case ShortenerFailure():
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              duration: resetDuration,
               backgroundColor: DSColors.red.shade700,
               content: Text(
                 'Failure: ${state.failure.runtimeType}',
@@ -130,18 +124,22 @@ class Home extends StatelessWidget {
             ),
           );
         }
-        await Future.delayed(const Duration(seconds: 3));
+        await Future.delayed(resetDuration);
         if (context.mounted) {
           context.read<ShortenerBloc>().add(const ShortenerEvent.reset());
         }
         break;
       case ShortenerSuccess():
         if (context.mounted) {
+          context.read<HistoryBloc>().add(
+            HistoryEvent.add(state.shortenedUrl),
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              duration: resetDuration,
               backgroundColor: DSColors.green.shade700,
               content: Text(
-                'Success! Shortened URL: ${state.shortenedUrl.shortUrl}',
+                'Shortened URL: ${state.shortenedUrl.shortUrl}',
               ),
             ),
           );

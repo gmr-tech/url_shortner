@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'src/common/infrastructure/injection.dart';
 import 'src/common/presentation/home.dart';
+import 'src/modules/history/bloc/history_bloc.dart';
 import 'src/modules/shortener/bloc/shortener_bloc.dart';
 
 class App extends StatelessWidget {
@@ -17,8 +18,15 @@ class App extends StatelessWidget {
           seedColor: Colors.deepPurple,
         ),
       ),
-      home: BlocProvider(
-        create: (context) => getIt<ShortenerBloc>(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<ShortenerBloc>(),
+          ),
+          BlocProvider(
+            create: (context) => getIt<HistoryBloc>(),
+          ),
+        ],
         child: const Home(),
       ),
     );

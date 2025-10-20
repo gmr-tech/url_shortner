@@ -14,6 +14,7 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:share_plus/share_plus.dart' as _i998;
 
+import '../../modules/history/bloc/history_bloc.dart' as _i824;
 import '../../modules/shortener/bloc/shortener_bloc.dart' as _i914;
 import '../../modules/shortener/domain/shorten_url_usecase.dart' as _i238;
 import '../../modules/shortener/domain/shortener_repository.dart' as _i815;
@@ -31,6 +32,7 @@ extension GetItInjectableX on _i174.GetIt {
     final externalModules = _$ExternalModules();
     gh.lazySingleton<_i361.Dio>(() => externalModules.dio);
     gh.lazySingleton<_i998.SharePlus>(() => externalModules.sharePlus);
+    gh.lazySingleton<_i824.HistoryBloc>(() => _i824.HistoryBloc());
     gh.lazySingleton<_i815.ShortenerRepository>(
       () => _i600.ShortenerRepositoryImpl(gh<_i361.Dio>()),
     );
