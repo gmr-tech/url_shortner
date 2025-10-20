@@ -14,7 +14,6 @@ void main() {
       testWidgets(
         'shows EmptyHistory when links list is empty',
         (tester) async {
-          // Arrange
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -23,7 +22,6 @@ void main() {
             ),
           );
 
-          // Assert
           expect(find.byType(EmptyHistory), findsOneWidget);
           expect(find.byType(ListView), findsNothing);
           expect(find.text(UIStrings.recentlyShortenedUrls), findsNothing);
@@ -35,7 +33,6 @@ void main() {
       testWidgets(
         'shows title and ListView when links list is not empty',
         (tester) async {
-          // Arrange
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -44,7 +41,6 @@ void main() {
             ),
           );
 
-          // Assert
           expect(find.byType(EmptyHistory), findsNothing);
           expect(find.text(UIStrings.recentlyShortenedUrls), findsOneWidget);
           expect(find.byType(ListView), findsOneWidget);
@@ -54,7 +50,6 @@ void main() {
       testWidgets(
         'displays correct number of ShortenedLinkTile items',
         (tester) async {
-          // Arrange
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -63,7 +58,6 @@ void main() {
             ),
           );
 
-          // Assert
           expect(find.byType(ShortenedLinkTile), findsNWidgets(3));
         },
       );
@@ -71,7 +65,6 @@ void main() {
       testWidgets(
         'displays separators between items',
         (tester) async {
-          // Arrange
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -83,8 +76,7 @@ void main() {
             ),
           );
 
-          // Assert
-          expect(find.byType(Divider), findsOneWidget); // n-1 separators
+          expect(find.byType(Divider), findsOneWidget);
         },
       );
     });
@@ -93,7 +85,6 @@ void main() {
       testWidgets(
         'contains required widget types',
         (tester) async {
-          // Arrange
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -102,7 +93,6 @@ void main() {
             ),
           );
 
-          // Assert
           expect(find.byType(Material), findsWidgets);
           expect(find.byType(ListView), findsOneWidget);
         },
@@ -111,7 +101,6 @@ void main() {
       testWidgets(
         'title text is displayed correctly',
         (tester) async {
-          // Arrange
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -120,7 +109,6 @@ void main() {
             ),
           );
 
-          // Assert
           final titleWidget = tester.widget<Text>(
             find.text(UIStrings.recentlyShortenedUrls),
           );
@@ -133,10 +121,8 @@ void main() {
       testWidgets(
         'accepts onItemDelete callback',
         (tester) async {
-          // Arrange
           void onDelete(item) {}
 
-          // Act
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -145,7 +131,6 @@ void main() {
             ),
           );
 
-          // Assert - widget should render without issues
           expect(find.byType(ShortenedLinkTile), findsOneWidget);
         },
       );
@@ -153,10 +138,8 @@ void main() {
       testWidgets(
         'accepts optional onCopyToClipboard callback',
         (tester) async {
-          // Arrange
           Future<void> onCopyToClipboard(String text) async {}
 
-          // Act
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -166,7 +149,6 @@ void main() {
             ),
           );
 
-          // Assert - widget should render without issues
           expect(find.byType(ShortenedLinkTile), findsOneWidget);
         },
       );
@@ -174,17 +156,14 @@ void main() {
       testWidgets(
         'works without onCopyToClipboard callback',
         (tester) async {
-          // Arrange & Act
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
               links: [TestData.shortenedUrl],
               onItemDelete: (_) {},
-              // onCopyToClipboard not provided
             ),
           );
 
-          // Assert - should not throw
           expect(find.byType(ShortenedLinkTile), findsOneWidget);
         },
       );
@@ -194,7 +173,6 @@ void main() {
       testWidgets(
         'handles single item correctly',
         (tester) async {
-          // Arrange
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -203,19 +181,17 @@ void main() {
             ),
           );
 
-          // Assert
           expect(find.byType(ShortenedLinkTile), findsOneWidget);
           expect(
             find.byType(Divider),
             findsNothing,
-          ); // No separators for single item
+          );
         },
       );
 
       testWidgets(
         'handles multiple items correctly',
         (tester) async {
-          // Arrange
           await WidgetTestHelper.pumpWidget(
             tester,
             ShortenedLinksList(
@@ -228,9 +204,8 @@ void main() {
             ),
           );
 
-          // Assert
           expect(find.byType(ShortenedLinkTile), findsNWidgets(3));
-          expect(find.byType(Divider), findsNWidgets(2)); // n-1 separators
+          expect(find.byType(Divider), findsNWidgets(2));
         },
       );
     });

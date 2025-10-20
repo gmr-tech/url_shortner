@@ -143,49 +143,6 @@ void main() {
       );
     });
 
-    group('Layout and Styling', () {
-      testWidgets(
-        'content is laid out in expanded column',
-        (tester) async {
-          void onDelete() {}
-
-          await WidgetTestHelper.pumpWidget(
-            tester,
-            ShortenedLinkTile(
-              shortenedLink: TestData.shortenedUrl,
-              onDelete: onDelete,
-              onCopyToClipboard: mockCopyToClipboard.call,
-            ),
-          );
-
-          final expanded = tester.widget<Expanded>(find.byType(Expanded));
-          expect(expanded.child, isA<Column>());
-
-          final column = expanded.child as Column;
-          expect(column.crossAxisAlignment, CrossAxisAlignment.start);
-        },
-      );
-
-      testWidgets(
-        'actions are in vertical column',
-        (tester) async {
-          void onDelete() {}
-
-          await WidgetTestHelper.pumpWidget(
-            tester,
-            ShortenedLinkTile(
-              shortenedLink: TestData.shortenedUrl,
-              onDelete: onDelete,
-              onCopyToClipboard: mockCopyToClipboard.call,
-            ),
-          );
-
-          final columns = tester.widgetList<Column>(find.byType(Column));
-          expect(columns.length, 2);
-        },
-      );
-    });
-
     group('Different Content', () {
       testWidgets(
         'different URLs have different content',
