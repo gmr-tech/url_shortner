@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../../../common/domain/failure.dart';
 import '../../../common/domain/input_url.dart';
 import '../../../common/domain/shortened_url.dart';
+import '../../../common/infrastructure/api_constants.dart';
 import '../../../common/infrastructure/shortened_url_dto.dart';
 import '../domain/shortener_repository.dart';
 
@@ -18,10 +19,25 @@ class ShortenerRepositoryImpl implements ShortenerRepository {
 
   @override
   Future<Either<Failure, ShortenedUrl>> shorten(InputUrl originalUrl) async {
-    final response = await dio.post('/shorten', data: originalUrl.url);
+    try {
+      final response = await dio.post(
+        ApiConstants.shortenEndpoint,
+        data: {'url': originalUrl.url},
+      );
 
-    final data = response.data as Map<String, dynamic>;
+      final data = response.data as Map<String, dynamic>;
+      final aliasId = data['alias'];
+      final links = data['_links'] as Map<String, dynamic>;
 
-    return Right(ShortenedUrlDTO.fromJson(data).toDomain());
+      return Right(
+        ShortenedUrlDTO.fromJson({
+          'aliasId': int.tryParse(aliasId) ?? 0,
+          'originalUrl': links['self'],
+          'shortUrl': links['short'],
+        }).toDomain(),
+      );
+    } on Exception catch (e) {
+      return Left(Failure.unexpected(object: e));
+    }
   }
 }

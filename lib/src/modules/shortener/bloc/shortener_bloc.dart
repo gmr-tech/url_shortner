@@ -17,6 +17,7 @@ class ShortenerBloc extends Bloc<ShortenerEvent, ShortenerState> {
     on<ShortenerEvent>(
       (event, emit) async => switch (event) {
         _Reset() => _onReset(emit),
+        _AddInput() => _onAddInput(event, emit),
         _Shorten() => _onShorten(event, emit),
       },
     );
@@ -28,9 +29,15 @@ class ShortenerBloc extends Bloc<ShortenerEvent, ShortenerState> {
     _Shorten event,
     Emitter<ShortenerState> emit,
   ) async {
+    final currentState = state;
+
+    if (currentState is! ShortenerHasInput) {
+      return emit(const ShortenerState.failure(failure: Failure.unexpected()));
+    }
+
     emit(const ShortenerState.loading());
 
-    final result = await _useCase.call(event.inputUrl);
+    final result = await _useCase.call(currentState.inputUrl);
 
     result.fold(
       (failure) => emit(
@@ -41,6 +48,11 @@ class ShortenerBloc extends Bloc<ShortenerEvent, ShortenerState> {
       ),
     );
   }
+
+  void _onAddInput(
+    _AddInput event,
+    Emitter<ShortenerState> emit,
+  ) async => emit(ShortenerState.hasInput(inputUrl: event.inputUrl));
 
   void _onReset(
     Emitter<ShortenerState> emit,

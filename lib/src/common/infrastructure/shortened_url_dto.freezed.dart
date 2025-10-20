@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ShortenedUrlDTO {
 
- String get aliasId; String get originalUrl; String get shortUrl;
+ int get aliasId; String get originalUrl; String get shortUrl;
 /// Create a copy of ShortenedUrlDTO
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $ShortenedUrlDTOCopyWith<$Res>  {
   factory $ShortenedUrlDTOCopyWith(ShortenedUrlDTO value, $Res Function(ShortenedUrlDTO) _then) = _$ShortenedUrlDTOCopyWithImpl;
 @useResult
 $Res call({
- String aliasId, String originalUrl, String shortUrl
+ int aliasId, String originalUrl, String shortUrl
 });
 
 
@@ -68,7 +68,7 @@ class _$ShortenedUrlDTOCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? aliasId = null,Object? originalUrl = null,Object? shortUrl = null,}) {
   return _then(_self.copyWith(
 aliasId: null == aliasId ? _self.aliasId : aliasId // ignore: cast_nullable_to_non_nullable
-as String,originalUrl: null == originalUrl ? _self.originalUrl : originalUrl // ignore: cast_nullable_to_non_nullable
+as int,originalUrl: null == originalUrl ? _self.originalUrl : originalUrl // ignore: cast_nullable_to_non_nullable
 as String,shortUrl: null == shortUrl ? _self.shortUrl : shortUrl // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -155,7 +155,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String aliasId,  String originalUrl,  String shortUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int aliasId,  String originalUrl,  String shortUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ShortenedUrlDTO() when $default != null:
 return $default(_that.aliasId,_that.originalUrl,_that.shortUrl);case _:
@@ -176,7 +176,7 @@ return $default(_that.aliasId,_that.originalUrl,_that.shortUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String aliasId,  String originalUrl,  String shortUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int aliasId,  String originalUrl,  String shortUrl)  $default,) {final _that = this;
 switch (_that) {
 case _ShortenedUrlDTO():
 return $default(_that.aliasId,_that.originalUrl,_that.shortUrl);case _:
@@ -196,7 +196,7 @@ return $default(_that.aliasId,_that.originalUrl,_that.shortUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String aliasId,  String originalUrl,  String shortUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int aliasId,  String originalUrl,  String shortUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _ShortenedUrlDTO() when $default != null:
 return $default(_that.aliasId,_that.originalUrl,_that.shortUrl);case _:
@@ -210,11 +210,11 @@ return $default(_that.aliasId,_that.originalUrl,_that.shortUrl);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _ShortenedUrlDTO implements ShortenedUrlDTO {
-  const _ShortenedUrlDTO({required this.aliasId, required this.originalUrl, required this.shortUrl});
+class _ShortenedUrlDTO extends ShortenedUrlDTO {
+  const _ShortenedUrlDTO({required this.aliasId, required this.originalUrl, required this.shortUrl}): super._();
   factory _ShortenedUrlDTO.fromJson(Map<String, dynamic> json) => _$ShortenedUrlDTOFromJson(json);
 
-@override final  String aliasId;
+@override final  int aliasId;
 @override final  String originalUrl;
 @override final  String shortUrl;
 
@@ -251,7 +251,7 @@ abstract mixin class _$ShortenedUrlDTOCopyWith<$Res> implements $ShortenedUrlDTO
   factory _$ShortenedUrlDTOCopyWith(_ShortenedUrlDTO value, $Res Function(_ShortenedUrlDTO) _then) = __$ShortenedUrlDTOCopyWithImpl;
 @override @useResult
 $Res call({
- String aliasId, String originalUrl, String shortUrl
+ int aliasId, String originalUrl, String shortUrl
 });
 
 
@@ -271,7 +271,7 @@ class __$ShortenedUrlDTOCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? aliasId = null,Object? originalUrl = null,Object? shortUrl = null,}) {
   return _then(_ShortenedUrlDTO(
 aliasId: null == aliasId ? _self.aliasId : aliasId // ignore: cast_nullable_to_non_nullable
-as String,originalUrl: null == originalUrl ? _self.originalUrl : originalUrl // ignore: cast_nullable_to_non_nullable
+as int,originalUrl: null == originalUrl ? _self.originalUrl : originalUrl // ignore: cast_nullable_to_non_nullable
 as String,shortUrl: null == shortUrl ? _self.shortUrl : shortUrl // ignore: cast_nullable_to_non_nullable
 as String,
   ));

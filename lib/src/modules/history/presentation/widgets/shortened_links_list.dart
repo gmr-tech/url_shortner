@@ -20,11 +20,8 @@ class ShortenedLinksList extends StatelessWidget {
       children: [
         Material(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              DSSpace.medium,
-              DSSpace.medium,
-              DSSpace.medium,
-              0,
+            padding: const EdgeInsets.symmetric(
+              horizontal: DSSpace.medium,
             ),
             child: Text(
               'Recently shortened URLs',

@@ -1,8 +1,21 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../common/domain/input_url.dart';
+import '../../../../common/domain/input_url_validator.dart';
+import '../../bloc/shortener_bloc.dart';
+
 class UrlInputField extends StatelessWidget {
-  const UrlInputField({super.key});
+  const UrlInputField({
+    required this.state,
+    this.onChanged,
+    this.onFieldSubmitted,
+    super.key,
+  });
+
+  final ShortenerState state;
+  final Function(String)? onChanged;
+  final Function(String)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +44,20 @@ class UrlInputField extends StatelessWidget {
             width: DSSize.borderThicknessLarge,
           ),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(DSProperty.radiusXXLarge),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.error,
+            width: DSSize.borderThicknessLarge,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(DSProperty.radiusXXLarge),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.error,
+            width: DSSize.borderThicknessLarge,
+          ),
+        ),
         disabledBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(DSProperty.radiusXXLarge),
           borderSide: BorderSide(
@@ -38,17 +65,12 @@ class UrlInputField extends StatelessWidget {
           ),
         ),
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      enabled: state is! ShortenerLoading,
       keyboardType: TextInputType.url,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter a URL';
-        }
-        final uri = Uri.tryParse(value);
-        if (uri == null || !uri.hasAbsolutePath) {
-          return 'Please enter a valid URL';
-        }
-        return null;
-      },
+      onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
+      validator: (value) => InputUrl(value ?? '').validate(),
     );
   }
 }

@@ -8,16 +8,18 @@ part 'shortened_url_dto.g.dart';
 @freezed
 abstract class ShortenedUrlDTO with _$ShortenedUrlDTO {
   const factory ShortenedUrlDTO({
-    required String aliasId,
+    required int aliasId,
     required String originalUrl,
     required String shortUrl,
   }) = _ShortenedUrlDTO;
+
+  const ShortenedUrlDTO._();
 
   factory ShortenedUrlDTO.fromJson(Map<String, dynamic> json) =>
       _$ShortenedUrlDTOFromJson(json);
 
   ShortenedUrl toDomain() => ShortenedUrl(
-    aliasId: int.parse(aliasId),
+    aliasId: aliasId,
     originalUrl: originalUrl,
     shortUrl: shortUrl,
     createdAt: DateTime.now(),

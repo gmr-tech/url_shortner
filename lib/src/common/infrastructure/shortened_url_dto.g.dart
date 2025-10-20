@@ -8,7 +8,7 @@ part of 'shortened_url_dto.dart';
 
 _ShortenedUrlDTO _$ShortenedUrlDTOFromJson(Map<String, dynamic> json) =>
     _ShortenedUrlDTO(
-      aliasId: json['aliasId'] as String,
+      aliasId: (json['aliasId'] as num).toInt(),
       originalUrl: json['originalUrl'] as String,
       shortUrl: json['shortUrl'] as String,
     );

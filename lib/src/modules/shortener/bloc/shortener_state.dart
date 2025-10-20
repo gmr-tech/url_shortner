@@ -2,12 +2,15 @@ part of 'shortener_bloc.dart';
 
 @freezed
 sealed class ShortenerState with _$ShortenerState {
-  const factory ShortenerState.initial() = _Initial;
-  const factory ShortenerState.loading() = _Loading;
+  const factory ShortenerState.initial() = ShortenerInitial;
+  const factory ShortenerState.hasInput({
+    required InputUrl inputUrl,
+  }) = ShortenerHasInput;
+  const factory ShortenerState.loading() = ShortenerLoading;
   const factory ShortenerState.success({
     required ShortenedUrl shortenedUrl,
-  }) = _Success;
+  }) = ShortenerSuccess;
   const factory ShortenerState.failure({
     required Failure failure,
-  }) = _Failure;
+  }) = ShortenerFailure;
 }
