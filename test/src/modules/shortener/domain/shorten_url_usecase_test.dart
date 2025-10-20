@@ -6,8 +6,8 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:url_shortener/src/common/domain/failure.dart';
 import 'package:url_shortener/src/modules/shortener/domain/shorten_url_usecase.dart';
-import '../../../helpers/mocks.dart';
-import '../../../helpers/test_data.dart';
+import '../../../../helpers/mocks.dart';
+import '../../../../helpers/test_data.dart';
 
 void main() {
   group('ShortenUrlUseCase', () {
