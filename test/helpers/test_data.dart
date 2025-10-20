@@ -57,4 +57,23 @@ class TestData {
     shortUrl: 'https://short.ly/xyz789',
     createdAt: DateTime(2025, 1, 1, 12),
   );
+
+  // BLoC specific test data
+  static final historyUrlList = [
+    shortenedUrl,
+    shortenedUrlDifferentTime,
+    shortenedUrlDifferentId,
+  ];
+
+  static final historyUrlListWithNewItem = [
+    shortenedUrlDifferentShort, // newest first
+    shortenedUrl,
+    shortenedUrlDifferentTime,
+    shortenedUrlDifferentId,
+  ];
+
+  static final historyUrlListAfterRemoval = [
+    shortenedUrlDifferentTime,
+    shortenedUrlDifferentId,
+  ];
 }
