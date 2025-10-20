@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../common/presentation/paste_snackbar.dart';
 import '../../../../common/presentation/ui_strings.dart';
 import '../../bloc/shortener_bloc.dart';
+import 'input_field_suffix_icon.dart';
 
 class UrlInputField extends StatefulWidget {
   const UrlInputField({
@@ -52,24 +53,6 @@ class _UrlInputFieldState extends State<UrlInputField> {
 
   @override
   Widget build(BuildContext context) {
-    final suffixIcon = switch (widget.state) {
-      ShortenerHasInput() || ShortenerSuccess() => IconButton(
-        onPressed: handleClear,
-        icon: const Icon(Icons.clear),
-      ),
-      ShortenerLoading() => const Padding(
-        padding: EdgeInsets.all(DSSpace.small),
-        child: SizedBox(
-          width: DSSize.iconSize,
-          height: DSSize.iconSize,
-          child: CircularProgressIndicator.adaptive(
-            strokeWidth: DSSize.borderThicknessSmall,
-          ),
-        ),
-      ),
-      _ => null,
-    };
-
     return TextFormField(
       controller: _controller,
       decoration: InputDecoration(
@@ -77,7 +60,10 @@ class _UrlInputFieldState extends State<UrlInputField> {
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(DSProperty.radius),
         ),
-        suffixIcon: suffixIcon,
+        suffixIcon: InputFieldSuffixIcon(
+          state: widget.state,
+          onClear: handleClear,
+        ),
         prefixIcon: const Icon(Icons.link),
         contentPadding: const EdgeInsets.symmetric(
           vertical: DSSpace.xSmall,

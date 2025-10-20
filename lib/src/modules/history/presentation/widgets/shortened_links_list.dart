@@ -10,15 +10,13 @@ class ShortenedLinksList extends StatelessWidget {
   const ShortenedLinksList({
     required this.links,
     required this.onItemDelete,
-    this.copyToClipboard,
-    this.onCopySuccess,
+    this.onCopyToClipboard,
     super.key,
   });
 
   final List<ShortenedUrl> links;
   final Function(ShortenedUrl) onItemDelete;
-  final Future<void> Function(String)? copyToClipboard;
-  final void Function()? onCopySuccess;
+  final Future<void> Function(String)? onCopyToClipboard;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +45,7 @@ class ShortenedLinksList extends StatelessWidget {
             itemBuilder: (context, index) => ShortenedLinkTile(
               shortenedLink: links[index],
               onDelete: () => onItemDelete(links[index]),
-              copyToClipboard: copyToClipboard,
-              onCopySuccess: onCopySuccess,
+              onCopyToClipboard: onCopyToClipboard,
             ),
             separatorBuilder: (context, index) => const Divider(
               height: DSSize.borderThicknessSmall,

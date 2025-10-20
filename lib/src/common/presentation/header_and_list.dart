@@ -83,14 +83,9 @@ class HeaderAndList extends StatelessWidget {
                 onItemDelete: (link) => context.read<HistoryBloc>().add(
                   HistoryEvent.remove(link),
                 ),
-                copyToClipboard: (text) =>
-                    getIt<ClipboardService>().setText(text),
-                onCopySuccess: () => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text(UIStrings.urlCopiedToClipboard),
-                    duration: PresentConstants.snackBarFastDuration,
-                    backgroundColor: DSColors.green.shade700,
-                  ),
+                onCopyToClipboard: (text) async => handleCopyToClipboard(
+                  context,
+                  text,
                 ),
               ),
             },
@@ -177,6 +172,19 @@ class HeaderAndList extends StatelessWidget {
         break;
       default:
         break;
+    }
+  }
+
+  void handleCopyToClipboard(BuildContext context, String text) async {
+    await getIt<ClipboardService>().setText(text);
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(UIStrings.urlCopiedToClipboard),
+          duration: PresentConstants.snackBarFastDuration,
+          backgroundColor: DSColors.green.shade700,
+        ),
+      );
     }
   }
 }

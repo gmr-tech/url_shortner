@@ -20,15 +20,13 @@ class ShortenedLinkTile extends StatelessWidget {
   const ShortenedLinkTile({
     required this.shortenedLink,
     required this.onDelete,
-    this.copyToClipboard,
-    this.onCopySuccess,
+    this.onCopyToClipboard,
     super.key,
   });
 
   final ShortenedUrl shortenedLink;
   final Function() onDelete;
-  final Future<void> Function(String)? copyToClipboard;
-  final void Function()? onCopySuccess;
+  final Future<void> Function(String)? onCopyToClipboard;
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +135,6 @@ class ShortenedLinkTile extends StatelessWidget {
   }
 
   void onCopy(BuildContext context, String url) async {
-    await copyToClipboard?.call(url);
-    onCopySuccess?.call();
+    await onCopyToClipboard?.call(url);
   }
 }
