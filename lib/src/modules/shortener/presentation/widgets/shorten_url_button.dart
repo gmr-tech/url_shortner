@@ -26,7 +26,7 @@ class ShortenUrlButton extends StatelessWidget {
         shape: const StadiumBorder(),
         color: onPressed != null
             ? Theme.of(context).primaryColor
-            : Theme.of(context).disabledColor,
+            : Theme.of(context).colorScheme.surfaceContainerHigh,
         child: InkWell(
           borderRadius: const BorderRadius.all(DSProperty.radiusXXLarge),
           onTap: onPressed,
@@ -35,7 +35,9 @@ class ShortenUrlButton extends StatelessWidget {
             offset: const Offset(DSSpace.xxSmall, 0),
             child: Icon(
               Icons.send_rounded,
-              color: Theme.of(context).colorScheme.surfaceContainerHigh,
+              color: onPressed != null
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).disabledColor,
             ),
           ),
         ),

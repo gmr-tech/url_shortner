@@ -15,4 +15,8 @@ abstract class UIStrings {
   static const String deleteFromHistory = 'Delete from history';
   static const String urlCopiedToClipboard =
       'URL copied to clipboard successfully!';
+  static const String wantToPasteUrl =
+      'Do you want to paste the URL from clipboard?';
+  static const String dismiss = 'Dismiss';
+  static const String paste = 'Paste';
 }

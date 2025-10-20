@@ -10,3 +10,4 @@ export 'src/constants/ds_property.dart';
 export 'src/constants/ds_size.dart';
 export 'src/constants/ds_space.dart';
 export 'src/widgets/box_space/ds_box_space.dart';
+export 'src/widgets/linear_timer_bar/linear_timer_bar.dart';

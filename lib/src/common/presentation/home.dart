@@ -49,6 +49,9 @@ class Home extends StatelessWidget {
                               context,
                               state,
                             ),
+                            onClear: () => context.read<ShortenerBloc>().add(
+                              const ShortenerEvent.reset(),
+                            ),
                           ),
                         ),
                         ShortenUrlButton(
