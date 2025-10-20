@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'src/common/infrastructure/injection.dart';
+import 'src/common/presentation/header_and_list.dart';
 import 'src/common/presentation/home.dart';
 import 'src/modules/history/bloc/history_bloc.dart';
 import 'src/modules/shortener/bloc/shortener_bloc.dart';
@@ -27,7 +28,7 @@ class App extends StatelessWidget {
             create: (context) => getIt<HistoryBloc>(),
           ),
         ],
-        child: const Home(),
+        child: const Home(child: HeaderAndList()),
       ),
     );
   }
