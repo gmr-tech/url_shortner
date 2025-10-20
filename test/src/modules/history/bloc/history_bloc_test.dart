@@ -19,7 +19,6 @@ void main() {
     });
 
     test('initial state should be HistoryState.initial()', () {
-      // Assert
       expect(historyBloc.state, const HistoryState.initial());
     });
 
