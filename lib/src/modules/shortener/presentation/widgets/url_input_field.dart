@@ -33,7 +33,7 @@ class _UrlInputFieldState extends State<UrlInputField> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => checkInitialPaste(context),
+      (_) => handleInitialPaste(context),
     );
   }
 
@@ -132,7 +132,7 @@ class _UrlInputFieldState extends State<UrlInputField> {
     widget.onChanged?.call(text);
   }
 
-  void checkInitialPaste(BuildContext context) async {
+  void handleInitialPaste(BuildContext context) async {
     final data = await Clipboard.getData(Clipboard.kTextPlain);
     final input = InputUrl(data?.text ?? '');
     if (context.mounted && input.isValid()) {
