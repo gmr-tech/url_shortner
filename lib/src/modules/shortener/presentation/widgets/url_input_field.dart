@@ -1,8 +1,6 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../common/domain/input_url.dart';
-import '../../../../common/domain/input_url_validator.dart';
 import '../../../../common/presentation/paste_snackbar.dart';
 import '../../../../common/presentation/ui_strings.dart';
 import '../../bloc/shortener_bloc.dart';
@@ -14,6 +12,8 @@ class UrlInputField extends StatefulWidget {
     this.onFieldSubmitted,
     this.onClear,
     this.getClipboardText,
+    this.validateInput,
+    this.shouldShowPasteSnackbar,
     super.key,
   });
 
@@ -21,7 +21,9 @@ class UrlInputField extends StatefulWidget {
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
   final Function()? onClear;
-  final Future<String?>? getClipboardText;
+  final Future<String?> Function()? getClipboardText;
+  final String? Function(String?)? validateInput;
+  final bool Function(String)? shouldShowPasteSnackbar;
 
   @override
   State<UrlInputField> createState() => _UrlInputFieldState();
@@ -117,7 +119,7 @@ class _UrlInputFieldState extends State<UrlInputField> {
       keyboardType: TextInputType.url,
       onChanged: widget.onChanged,
       onFieldSubmitted: widget.onFieldSubmitted,
-      validator: (value) => InputUrl(value ?? '').validate(),
+      validator: widget.validateInput,
     );
   }
 
@@ -127,21 +129,21 @@ class _UrlInputFieldState extends State<UrlInputField> {
   }
 
   void handlePaste() async {
-    final text = await widget.getClipboardText ?? '';
+    final text = await widget.getClipboardText?.call() ?? '';
     _controller.text = text;
     widget.onChanged?.call(text);
   }
 
   void handleInitialPaste(BuildContext context) async {
-    final text = await widget.getClipboardText ?? '';
-    final input = InputUrl(text);
-    if (context.mounted && input.isValid()) {
+    final text = await widget.getClipboardText?.call() ?? '';
+    final shouldShow = widget.shouldShowPasteSnackbar?.call(text) ?? false;
+    if (context.mounted && shouldShow) {
       ScaffoldMessenger.of(context).showSnackBar(
         PasteSnackbar(
           context: context,
           onPaste: () {
-            _controller.text = input.url;
-            widget.onChanged?.call(input.url);
+            _controller.text = text;
+            widget.onChanged?.call(text);
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
           },
         ),

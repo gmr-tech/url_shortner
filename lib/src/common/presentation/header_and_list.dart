@@ -1,6 +1,5 @@
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../modules/history/bloc/history_bloc.dart';
@@ -47,7 +46,12 @@ class HeaderAndList extends StatelessWidget {
                         onClear: () => context.read<ShortenerBloc>().add(
                           const ShortenerEvent.reset(),
                         ),
-                        getClipboardText: getIt<ClipboardService>().getText(),
+                        getClipboardText: () =>
+                            getIt<ClipboardService>().getText(),
+                        validateInput: (value) =>
+                            InputUrl(value ?? '').validate(),
+                        shouldShowPasteSnackbar: (text) =>
+                            InputUrl(text).isValid(),
                       ),
                     ),
                     ShortenUrlButton(
@@ -145,9 +149,7 @@ class HeaderAndList extends StatelessWidget {
         context.read<HistoryBloc>().add(
           HistoryEvent.add(state.shortenedUrl),
         );
-        await Clipboard.setData(
-          ClipboardData(text: success.shortenedUrl.shortUrl),
-        );
+        await getIt<ClipboardService>().setText(success.shortenedUrl.shortUrl);
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
