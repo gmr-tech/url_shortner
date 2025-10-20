@@ -20,4 +20,10 @@ abstract class UIStrings {
   static const String dismiss = 'Dismiss';
   static const String paste = 'Paste';
   static const String yesterdayAt = 'Ontem às';
+
+  static const String urlCannotBeEmpty = 'URL cannot be empty';
+  static const String invalidUrlFormat = 'This is not a valid URL';
+  static const String invalidUrlProtocol =
+      'URL must use HTTP or HTTPS protocol';
+  static const String invalidUrlHost = 'URL must have a valid host';
 }

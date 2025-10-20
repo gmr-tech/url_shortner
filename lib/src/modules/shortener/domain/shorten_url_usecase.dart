@@ -7,7 +7,7 @@ import '../../../common/domain/input_url_validator.dart';
 import '../../../common/domain/shortened_url.dart';
 import 'shortener_repository.dart';
 
-@lazySingleton
+@LazySingleton()
 class ShortenUrlUseCase {
   ShortenUrlUseCase(this.repository);
 
