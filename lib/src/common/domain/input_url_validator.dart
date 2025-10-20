@@ -13,7 +13,7 @@ extension InputUrlValidator on InputUrl {
       return UIStrings.invalidUrlFormat;
     }
 
-    // TODO(gmrrenat): Should we enforce protocol check?
+    // TODO(user): Should we enforce protocol check?
     // if (uri.scheme != 'http' && uri.scheme != 'https') {
     //   return UIStrings.invalidUrlProtocol;
     // }
