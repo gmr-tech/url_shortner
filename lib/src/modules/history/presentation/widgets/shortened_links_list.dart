@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/domain/shortened_url.dart';
+import '../../../../common/infrastructure/injection.dart';
+import '../../../../common/services/lauhcher_service.dart';
 import 'empty_history.dart';
 import 'shortened_link_tile.dart';
 
@@ -34,6 +38,8 @@ class ShortenedLinksList extends StatelessWidget {
       itemBuilder: (context, index) => ShortenedLinkTile(
         shortenedLink: links[index],
         onDelete: () => onItemDelete(links[index]),
+        onLaunch: () =>
+            unawaited(getIt<LauncherService>().launch(links[index].shortUrl)),
         onCopyToClipboard: onCopyToClipboard,
       ),
       separatorBuilder: (context, index) => const Divider(

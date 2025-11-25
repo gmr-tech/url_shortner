@@ -22,6 +22,8 @@ import '../../modules/shortener/infrastructure/shortener_respository_impl.dart'
     as _i600;
 import '../services/clipboard_service.dart' as _i235;
 import '../services/clipboard_service_impl.dart' as _i271;
+import '../services/lauhcher_service.dart' as _i847;
+import '../services/launcher_service_impl.dart' as _i347;
 import 'external_modules.dart' as _i219;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -41,6 +43,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i815.ShortenerRepository>(
       () => _i600.ShortenerRepositoryImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i847.LauncherService>(() => _i347.LauncherServiceImpl());
     gh.lazySingleton<_i238.ShortenUrlUseCase>(
       () => _i238.ShortenUrlUseCase(gh<_i815.ShortenerRepository>()),
     );

@@ -16,6 +16,7 @@ import '../domain/input_url.dart';
 import '../domain/input_url_validator.dart';
 import '../infrastructure/injection.dart';
 import '../services/clipboard_service.dart';
+import '../services/lauhcher_service.dart';
 import 'paste_snackbar.dart';
 import 'present_constants.dart';
 import 'ui_strings.dart';
@@ -93,6 +94,8 @@ class HeaderAndList extends StatelessWidget {
                                 context.read<HistoryBloc>().add(
                                   HistoryEvent.remove(lastLink),
                                 ),
+                            onLaunch: () async => getIt<LauncherService>()
+                                .launch(lastLink.shortUrl),
                             onCopyToClipboard: (newValue) async {},
                           ),
                           SafeArea(

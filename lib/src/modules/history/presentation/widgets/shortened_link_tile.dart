@@ -20,18 +20,20 @@ class ShortenedLinkTile extends StatelessWidget {
   const ShortenedLinkTile({
     required this.shortenedLink,
     required this.onDelete,
+    required this.onLaunch,
     this.onCopyToClipboard,
     super.key,
   });
 
   final ShortenedUrl shortenedLink;
-  final Function() onDelete;
+  final Function()? onDelete;
+  final Function()? onLaunch;
   final Future<void> Function(String)? onCopyToClipboard;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onCopy(context, shortenedLink.shortUrl),
+      onTap: () async => await onLaunch?.call(),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
           DSSpace.medium,
@@ -134,7 +136,6 @@ class ShortenedLinkTile extends StatelessWidget {
     );
   }
 
-  void onCopy(BuildContext context, String url) async {
-    await onCopyToClipboard?.call(url);
-  }
+  void onCopy(BuildContext context, String url) async =>
+      await onCopyToClipboard?.call(url);
 }
