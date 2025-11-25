@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:design_system/design_system_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../modules/history/bloc/history_bloc.dart';
+import '../../modules/history/presentation/pages/recently_shortned_urls_page.dart';
 import '../../modules/history/presentation/widgets/empty_history.dart';
-import '../../modules/history/presentation/widgets/shortened_links_list.dart';
+import '../../modules/history/presentation/widgets/shortened_link_tile.dart';
 import '../../modules/shortener/bloc/shortener_bloc.dart';
 import '../../modules/shortener/presentation/widgets/shorten_url_button.dart';
 import '../../modules/shortener/presentation/widgets/url_input_field.dart';
@@ -72,14 +75,50 @@ class HeaderAndList extends StatelessWidget {
               HistoryInitial _ => const Center(
                 child: EmptyHistory(),
               ),
-              final HistoryUpdated updated => ShortenedLinksList(
-                links: updated.shortenedUrls,
-                onItemDelete: (link) => context.read<HistoryBloc>().add(
-                  HistoryEvent.remove(link),
-                ),
-                onCopyToClipboard: (text) async => handleCopyToClipboard(
-                  context,
-                  text,
+              final HistoryUpdated updated => Expanded(
+                child: Builder(
+                  builder: (context) {
+                    final links = updated.shortenedUrls;
+
+                    if (links.isNotEmpty) {
+                      final lastLink = links.first;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ShortenedLinkTile(
+                            shortenedLink: lastLink,
+                            onDelete: () async =>
+                                context.read<HistoryBloc>().add(
+                                  HistoryEvent.remove(lastLink),
+                                ),
+                            onCopyToClipboard: (newValue) async {},
+                          ),
+                          SafeArea(
+                            child: Padding(
+                              padding: const EdgeInsets.all(DSSpace.medium),
+                              child: ElevatedButton(
+                                child: const Text('Recently shortened URLs'),
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (navigationContext) =>
+                                        BlocProvider.value(
+                                          value: context.read<HistoryBloc>(),
+                                          child:
+                                              const RecentlyShortnedUrlsPage(),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const Text('Empty');
+                    }
+                  },
                 ),
               ),
             },
@@ -166,19 +205,6 @@ class HeaderAndList extends StatelessWidget {
         break;
       default:
         break;
-    }
-  }
-
-  void handleCopyToClipboard(BuildContext context, String text) async {
-    await getIt<ClipboardService>().setText(text);
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(UIStrings.urlCopiedToClipboard),
-          duration: PresentConstants.snackBarFastDuration,
-          backgroundColor: DSColors.green.shade700,
-        ),
-      );
     }
   }
 
